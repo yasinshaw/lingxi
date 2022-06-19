@@ -1,11 +1,11 @@
 // main.ts
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
 import App from './App.vue'
 import * as VueRouter from 'vue-router'
 import routes from './routes/routes'
 import "tailwindcss/tailwind.css"
+import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 

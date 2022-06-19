@@ -8,6 +8,13 @@ export default defineConfig({
     hmr: true
   },
   plugins: [vue()],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "~/styles/element/index.scss" as *;`,
+      },
+    },
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "/src"),
