@@ -6,44 +6,33 @@
         ></div>
 
         <el-menu
-            default-active="2"
+            default-active="/home"
             class="el-menu-vertical-demo bg-gray-700"
             active-text-color="#ffd04b"
             background-color="rgb(55 65 81 / var(--tw-bg-opacity))"
             text-color="#fff"
+            @select="handleSelect"
         >
-            <el-sub-menu index="1">
-                <template #title>
+            <template v-for="sideBar in sideBars">
+                <el-sub-menu :index="sideBar.path" v-if="sideBar.children?.length">
+                    <template #title>
+                        <el-icon>
+                            <location />
+                        </el-icon>
+                        <span>{{ sideBar.meta?.label }}</span>
+                    </template>
+                    <el-menu-item
+                        :index="sideBar.path + '/' + item.path"
+                        v-for="item in sideBar.children"
+                    >{{ item.meta?.label }}</el-menu-item>
+                </el-sub-menu>
+                <el-menu-item :index="sideBar.path" v-else>
                     <el-icon>
-                        <location />
+                        <briefcase />
                     </el-icon>
-                    <span>首页</span>
-                </template>
-                <el-menu-item index="1-1">item one</el-menu-item>
-                <el-menu-item index="1-2">item two</el-menu-item>
-            </el-sub-menu>
-            <el-sub-menu index="5">
-                <template #title>
-                    <el-icon>
-                        <location />
-                    </el-icon>
-                    <span>首页</span>
-                </template>
-                <el-menu-item index="5-1">item one</el-menu-item>
-                <el-menu-item index="5-2">item two</el-menu-item>
-            </el-sub-menu>
-            <el-menu-item index="2">
-                <el-icon>
-                    <briefcase />
-                </el-icon>
-                <span>Navigator Two</span>
-            </el-menu-item>
-            <el-menu-item index="4">
-                <el-icon>
-                    <setting />
-                </el-icon>
-                <span>Navigator Four</span>
-            </el-menu-item>
+                    <span>{{ sideBar.meta?.label }}</span>
+                </el-menu-item>
+            </template>
         </el-menu>
     </div>
 </template>
@@ -55,6 +44,8 @@ import { useRoute, useRouter } from 'vue-router';
 import {
     Menu as IconMenu,
 } from '@element-plus/icons-vue'
+import MyRoute from '@/routes/routes'
+const sideBars = MyRoute[0].children
 /**
 * 仓库
 */
@@ -74,6 +65,7 @@ const router = useRouter();
 const data = reactive({})
 onBeforeMount(() => {
     //console.log('2.组件挂载页面之前执行----onBeforeMount')
+    console.log(sideBars)
 })
 onMounted(() => {
     //console.log('3.-组件挂载到页面之后执行-------onMounted')
@@ -85,7 +77,10 @@ watchEffect(() => {
 defineExpose({
     ...toRefs(data)
 })
-
+const handleSelect = (path: string) => {
+    console.log(path)
+    router.push(path)
+}
 </script>
 <style scoped>
 /* 解决少1px的问题 */

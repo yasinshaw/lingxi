@@ -6,7 +6,7 @@
       </el-aside>
       <el-container class="h-full flex flex-col">
         <el-header class="h-12 bg-gray-700 shadow-md flex justify-between">
-          <div class="text-white h-full flex items-center">你好，灵希</div>
+          <div class="text-white h-full flex items-center">你好，lingxi</div>
           <div class="h-full flex items-center">
             <el-button type="primary" text @click="$router.push('/login')">注销</el-button>
           </div>
@@ -23,7 +23,7 @@
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import Aside from './aside.vue'
+import Aside from './aside.vue';
 /**
 * 仓库
 */
