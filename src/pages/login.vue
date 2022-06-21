@@ -27,12 +27,8 @@
 
 <script setup lang="ts">
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
-import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-/**
-* 仓库
-*/
-const store = useStore();
+
 /**
 * 路由对象
 */

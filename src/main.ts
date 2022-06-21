@@ -7,6 +7,7 @@ import routes from './routes/routes'
 import "tailwindcss/tailwind.css"
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import { createPinia } from 'pinia'
 
 
 
@@ -23,4 +24,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 
 app.use(ElementPlus)
 app.use(router)
+
+const store  = createPinia()
+app.use(store)
 app.mount('#app')

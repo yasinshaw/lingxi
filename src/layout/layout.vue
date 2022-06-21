@@ -21,13 +21,8 @@
 
 <script setup lang="ts">
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
-import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import Aside from './aside.vue';
-/**
-* 仓库
-*/
-const store = useStore();
 /**
 * 路由对象
 */

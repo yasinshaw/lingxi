@@ -10,9 +10,9 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.4",
     "element-plus": "^2.2.6",
+    "pinia": "^2.0.14",
     "vue": "^3.2.25",
-    "vue-router": "4",
-    "vuex": "^4.0.2"
+    "vue-router": "4"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

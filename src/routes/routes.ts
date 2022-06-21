@@ -1,5 +1,4 @@
 import Layout from '../layout/layout.vue'
-import type { DefineComponent } from 'vue'
 import { RouteRecordRaw } from 'vue-router'
 
 

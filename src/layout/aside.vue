@@ -2,7 +2,7 @@
     <div class="shadow">
         <div
             class="bg-contain bg-no-repeat bg-center h-16"
-            style="background-image: url(public/logo.png);"
+            style="background-image: url(/logo.png);"
         ></div>
 
         <el-menu
@@ -39,17 +39,12 @@
 
 <script setup lang="ts">
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
-import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import {
     Menu as IconMenu,
 } from '@element-plus/icons-vue'
 import MyRoute from '@/routes/routes'
 const sideBars = MyRoute[0].children
-/**
-* 仓库
-*/
-const store = useStore();
 /**
 * 路由对象
 */
@@ -65,7 +60,6 @@ const router = useRouter();
 const data = reactive({})
 onBeforeMount(() => {
     //console.log('2.组件挂载页面之前执行----onBeforeMount')
-    console.log(sideBars)
 })
 onMounted(() => {
     //console.log('3.-组件挂载到页面之后执行-------onMounted')
@@ -78,7 +72,6 @@ defineExpose({
     ...toRefs(data)
 })
 const handleSelect = (path: string) => {
-    console.log(path)
     router.push(path)
 }
 </script>

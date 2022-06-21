@@ -1,17 +1,16 @@
 <template>
-  <div >
-      <h1>home</h1>
-  </div>
+    <div>
+        <h1>home</h1>
+    </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
-import { useStore } from 'vuex';
+import { AlivePagesStore } from '@/store';
 import { useRoute, useRouter } from 'vue-router';
 /**
 * 仓库
 */
-const store = useStore();
 /**
 * 路由对象
 */
@@ -26,17 +25,19 @@ const router = useRouter();
 */
 const data = reactive({})
 onBeforeMount(() => {
-  //console.log('2.组件挂载页面之前执行----onBeforeMount')
+    const alivePages = AlivePagesStore()
+    console.log(alivePages.number)
+    //console.log('2.组件挂载页面之前执行----onBeforeMount')
 })
 onMounted(() => {
-  //console.log('3.-组件挂载到页面之后执行-------onMounted')
+    //console.log('3.-组件挂载到页面之后执行-------onMounted')
 })
-watchEffect(()=>{
+watchEffect(() => {
 })
 // 使用toRefs解构
 // let { } = { ...toRefs(data) } 
 defineExpose({
-  ...toRefs(data)
+    ...toRefs(data)
 })
 
 </script>
