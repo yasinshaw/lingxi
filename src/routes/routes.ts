@@ -65,6 +65,7 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/',
         component: Layout,
+        redirect: '/home',
         children: dynamicRoute,
     },
     {
