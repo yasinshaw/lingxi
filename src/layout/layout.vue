@@ -13,7 +13,7 @@
         </el-header>
         <el-main class="flex-1">
           <el-tabs
-            v-model="activeRouter"
+            v-model="activeTab"
             @tab-change="changeTab"
             @tab-remove="remove"
             type="card"
@@ -25,10 +25,15 @@
               :key="item.path"
               :label="item.label"
               :name="item.path"
-            >
-              <router-view></router-view>
-            </el-tab-pane>
+            ></el-tab-pane>
           </el-tabs>
+          <router-view v-slot="{ Component }">
+            <transition>
+              <keep-alive>
+                <component :is="Component" />
+              </keep-alive>
+            </transition>
+          </router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -71,7 +76,8 @@ defineExpose({
   ...toRefs(data),
 })
 
-const { activeRouter, routerTabs } = storeToRefs(useActiveRouterStore)
+const { activeTab, routerTabs } = storeToRefs(useActiveRouterStore)
+const keepAlivePages = computed(() => routerTabs.value.map(v => v.path))
 
 function changeTab(name: string) {
   router.push(name)

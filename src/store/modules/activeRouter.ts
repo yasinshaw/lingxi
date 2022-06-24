@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia'
 import { store } from '..'
-import routes, { findByFullPath } from '@/routes/routes'
 import { RouteLocationNormalized } from 'vue-router'
-import { config } from 'process'
 
 class EditableTab {
     constructor(public path: string, public label: string) { }
@@ -11,6 +9,7 @@ const useActiveRouterStoreFunc = defineStore('activeRouter', {
     state: () => {
         return {
             activeRouter: '/home',
+            activeTab : '/home',
             routerTabs: new Array<EditableTab>()
         }
     },
@@ -18,13 +17,14 @@ const useActiveRouterStoreFunc = defineStore('activeRouter', {
     // state: () => ({ count: 0 })
     actions: {
         changeActiveRouter(to: RouteLocationNormalized) {
-            const path = to.path
             const configPath = to.meta?.configFullPath as string
             this.activeRouter = configPath
-            let index = this.routerTabs.findIndex((v) => v.path == configPath)
+            this.activeTab = to.path
+            // 只要路由不完全一样，就认为是两个标签页，哪怕是两个动态路由 /user/1和/user/2
+            let index = this.routerTabs.findIndex((v) => v.path == to.path)
             if (index == -1) {
                 // todo 要注意嵌套的场景
-                this.routerTabs.push(new EditableTab(configPath, to.meta?.label as string))
+                this.routerTabs.push(new EditableTab(to.path, to.meta?.label as string))
             }
         },
         removeRouterTabs(path: string) {

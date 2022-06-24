@@ -31,14 +31,15 @@ const dynamicRoute: RouteRecordRaw[] = [
                 path: 'edit/:id',
                 component: () => import('../pages/articles/editArticle.vue'),
                 meta: {
-                    label: '编辑文章'
+                    label: '编辑文章',
+                    hideSideBar: true
                 }
             },
             {
                 path: 'add',
                 component: () => import('../pages/articles/addArticle.vue'),
                 meta: {
-                    label: '添加文章'
+                    label: '添加文章',
                 }
             },
         ]

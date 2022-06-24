@@ -12,22 +12,29 @@
             background-color="rgb(55 65 81 / var(--tw-bg-opacity))"
             text-color="#fff"
             router
-            @select="handleSelect"
         >
             <template v-for="sideBar in sideBars">
-                <el-sub-menu :index="sideBar.path" v-if="sideBar.children?.length">
+                <el-sub-menu
+                    :index="sideBar.path"
+                    v-if="sideBar.children?.length && !sideBar.meta?.hideSideBar"
+                >
                     <template #title>
                         <el-icon>
                             <location />
                         </el-icon>
                         <span>{{ sideBar.meta?.label }}</span>
                     </template>
-                    <el-menu-item
-                        :index="sideBar.path + '/' + item.path"
-                        v-for="item in sideBar.children"
-                    >{{ item.meta?.label }}</el-menu-item>
+                    <template v-for="item in sideBar.children">
+                        <el-menu-item
+                            :index="sideBar.path + '/' + item.path"
+                            v-if="!item.meta?.hideSideBar"
+                        >{{ item.meta?.label }}</el-menu-item>
+                    </template>
                 </el-sub-menu>
-                <el-menu-item :index="sideBar.path" v-else>
+                <el-menu-item
+                    :index="sideBar.path"
+                    v-if="!sideBar.children?.length && !sideBar.meta?.hideSideBar"
+                >
                     <el-icon>
                         <briefcase />
                     </el-icon>
@@ -75,9 +82,6 @@ defineExpose({
     ...toRefs(data)
 })
 const { activeRouter, routerTabs } = storeToRefs(useActiveRouterStore)
-const handleSelect = (path: string) => {
-    // router.push(path)
-}
 </script>
 <style scoped>
 /* 解决少1px的问题 */

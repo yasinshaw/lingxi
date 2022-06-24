@@ -21,12 +21,10 @@ const router = useRouter();
 */
 const data = reactive({})
 onBeforeMount(() => {
-    //console.log('2.组件挂载页面之前执行----onBeforeMount')
+    // console.log('2.组件挂载页面之前执行----onBeforeMount')
 })
 onMounted(() => {
-    //console.log('3.-组件挂载到页面之后执行-------onMounted')
-})
-watchEffect(() => {
+    // console.log('3.-组件挂载到页面之后执行-------onMounted')
 })
 // 使用toRefs解构
 // let { } = { ...toRefs(data) } 
