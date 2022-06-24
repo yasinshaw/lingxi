@@ -77,7 +77,6 @@ function changeTab(name: string) {
   router.push(name)
 }
 function remove(name: string) {
-  useActiveRouterStore.removeRouterTabs(name)
   const pages = routerTabs.value
   let index = pages.findIndex(v => v.path == name)
   // 如果删除的当前路由，优先找下一个，如果下一个没有了，找上一个，如果上一个没有了，回到首页
@@ -90,6 +89,7 @@ function remove(name: string) {
       router.push('/home')
     }
   }
+  useActiveRouterStore.removeRouterTabs(name)
 }
 
 </script>

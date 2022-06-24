@@ -6,11 +6,12 @@
         ></div>
 
         <el-menu
-            default-active="/home"
+            :default-active="activeRouter"
             class="el-menu-vertical-demo bg-gray-700"
             active-text-color="#ffd04b"
             background-color="rgb(55 65 81 / var(--tw-bg-opacity))"
             text-color="#fff"
+            router
             @select="handleSelect"
         >
             <template v-for="sideBar in sideBars">
@@ -44,6 +45,8 @@ import {
     Menu as IconMenu,
 } from '@element-plus/icons-vue'
 import MyRoute from '@/routes/routes'
+import { useActiveRouterStore } from '@/store/modules/activeRouter';
+import { storeToRefs } from 'pinia';
 const sideBars = MyRoute[0].children
 /**
 * 路由对象
@@ -71,8 +74,9 @@ watchEffect(() => {
 defineExpose({
     ...toRefs(data)
 })
+const { activeRouter, routerTabs } = storeToRefs(useActiveRouterStore)
 const handleSelect = (path: string) => {
-    router.push(path)
+    // router.push(path)
 }
 </script>
 <style scoped>

@@ -28,7 +28,7 @@ const dynamicRoute: RouteRecordRaw[] = [
                 }
             },
             {
-                path: 'edit',
+                path: 'edit/:id',
                 component: () => import('../pages/articles/editArticle.vue'),
                 meta: {
                     label: '编辑文章'
@@ -81,30 +81,15 @@ routes.concat(dynamicRoute)
 function addFullPath(parentPath: string, routes: RouteRecordRaw[]) {
     routes.forEach(v => {
         if (v.path.startsWith('/')) {
-            v.meta!.fullPath = v.path
+            v.meta!.configFullPath = v.path
         } else {
-            v.meta!.fullPath = parentPath + '/' + v.path
+            v.meta!.configFullPath = parentPath + '/' + v.path
         }
         if (v.children) {
-            addFullPath(v.meta!.fullPath as string, v.children)
+            addFullPath(v.meta!.configFullPath as string, v.children)
         }
     })
 }
 addFullPath('/', routes)
-
-export function findByFullPath(fullPath: string, arr: RouteRecordRaw[] | undefined): RouteRecordRaw | undefined {
-    if (!arr || arr.length == 0) {
-        return undefined
-    }
-    let obj = arr.find(v => v.meta!.fullPath == fullPath)
-    if (obj) {
-        return obj
-    } else {
-        // 如果没找到，遍历往下找
-        // todo 这里可以优化一下性能
-        obj = arr.find(v => findByFullPath(fullPath, v.children) != undefined)
-        return findByFullPath(fullPath, obj?.children)
-    }
-}
 
 export default routes

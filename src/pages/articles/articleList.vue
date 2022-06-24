@@ -1,6 +1,9 @@
 <template>
     <div>
         <h1>article list</h1>
+        <el-button type="primary" @click="$router.push('/articles/edit/1')">
+            编辑
+        </el-button>
     </div>
 </template>
 

@@ -25,7 +25,7 @@ const router = VueRouter.createRouter({
   routes, // `routes: routes` 的缩写
 })
 router.beforeEach((to, from) => {
-  useActiveRouterStore.changeActiveRouter(to.fullPath)
+  useActiveRouterStore.changeActiveRouter(to)
   return true
 })
 
