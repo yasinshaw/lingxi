@@ -7,24 +7,28 @@ import routes from './routes/routes'
 import "tailwindcss/tailwind.css"
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import { createPinia } from 'pinia'
+import { setupStore } from "@/store"
+import { useActiveRouterStore } from './store/modules/activeRouter'
 
 
 
-const router = VueRouter.createRouter({
-    // 4. 内部提供了 history 模式的实现。为了简单起见，我们在这里使用 hash 模式。
-    history: VueRouter.createWebHashHistory(),
-    routes, // `routes: routes` 的缩写
-  })
 
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
+setupStore(app)
+
+const router = VueRouter.createRouter({
+  // 4. 内部提供了 history 模式的实现。为了简单起见，我们在这里使用 hash 模式。
+  history: VueRouter.createWebHashHistory(),
+  routes, // `routes: routes` 的缩写
+})
+router.beforeEach((to, from) => {
+  useActiveRouterStore.changeActiveRouter(to.fullPath)
+  return true
+})
 
 app.use(ElementPlus)
 app.use(router)
-
-const store  = createPinia()
-app.use(store)
 app.mount('#app')

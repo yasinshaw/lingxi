@@ -13,18 +13,18 @@
         </el-header>
         <el-main class="flex-1">
           <el-tabs
-            v-model="editableTabsValue"
+            v-model="activeRouter"
             @tab-change="changeTab"
             @tab-remove="remove"
             type="card"
-            closable
+            :closable="routerTabs.length > 1"
             class="demo-tabs"
           >
             <el-tab-pane
-              v-for="item in pages"
-              :key="item.name"
+              v-for="item in routerTabs"
+              :key="item.path"
               :label="item.label"
-              :name="item.name"
+              :name="item.path"
             >
               <router-view></router-view>
             </el-tab-pane>
@@ -40,6 +40,9 @@ import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed 
 import { useRoute, useRouter } from 'vue-router';
 import Aside from './aside.vue';
 import MyRoute from '@/routes/routes'
+import { useActiveRouterStore } from '@/store/modules/activeRouter';
+import { useRestoreActive } from 'element-plus';
+import { storeToRefs } from 'pinia';
 /**
 * 路由对象
 */
@@ -68,37 +71,25 @@ defineExpose({
   ...toRefs(data),
 })
 
-const editableTabsValue = ref('/home')
-class EditableTab {
-  constructor(public name: string, public label: string) { }
-}
-const pages = reactive(MyRoute[0].children!.map(v => new EditableTab(v.path, v.meta?.label as string)))
-
-function refreshActive() {
-  editableTabsValue.value = route.path
-}
+const { activeRouter, routerTabs } = storeToRefs(useActiveRouterStore)
 
 function changeTab(name: string) {
   router.push(name)
 }
 function remove(name: string) {
-  console.log(name)
-  console.log(pages)
-  let index = -1
-  index = pages.findIndex(v => v.name == name)
+  useActiveRouterStore.removeRouterTabs(name)
+  const pages = routerTabs.value
+  let index = pages.findIndex(v => v.path == name)
   // 如果删除的当前路由，优先找下一个，如果下一个没有了，找上一个，如果上一个没有了，回到首页
   if (route.path == name) {
-      console.log(index)
     if (index < pages.length - 1) {
-      router.push(pages[index + 1].name)
+      router.push(pages[index + 1].path)
     } else if (index > 0) {
-      router.push(pages[index - 1].name)
+      router.push(pages[index - 1].path)
     } else {
       router.push('/home')
     }
   }
-  pages.splice(index, 1)
-  refreshActive()
 }
 
 </script>

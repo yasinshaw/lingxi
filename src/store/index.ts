@@ -1,15 +1,9 @@
-import { defineStore } from "pinia";
+import type { App } from "vue";
+import { createPinia } from "pinia";
+const store = createPinia();
 
-export const enum Names {
-    ALIVE_PAGES = "ALIVE_PAGES"
+export function setupStore(app: App<Element>) {
+  app.use(store);
 }
 
-export const AlivePagesStore = defineStore(Names.ALIVE_PAGES, {
-    state: () => {
-        return {
-            number: 1
-        }
-    },
-    getters: {},
-    actions: {}
-})
+export { store };

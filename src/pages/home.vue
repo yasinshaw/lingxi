@@ -6,7 +6,6 @@
 
 <script setup lang="ts">
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
-import { AlivePagesStore } from '@/store';
 import { useRoute, useRouter } from 'vue-router';
 /**
 * 仓库
@@ -25,8 +24,6 @@ const router = useRouter();
 */
 const data = reactive({})
 onBeforeMount(() => {
-    const alivePages = AlivePagesStore()
-    console.log(alivePages.number)
     //console.log('2.组件挂载页面之前执行----onBeforeMount')
 })
 onMounted(() => {
