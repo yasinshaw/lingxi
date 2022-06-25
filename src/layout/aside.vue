@@ -16,7 +16,7 @@
             <template v-for="sideBar in sideBars">
                 <el-sub-menu
                     :index="sideBar.path"
-                    v-if="sideBar.children?.length && !sideBar.meta?.hideSideBar"
+                    v-if="sideBar.children?.length && sideBar.children?.length > 1 && !sideBar.meta?.hideSideBar"
                 >
                     <template #title>
                         <el-icon>
@@ -26,19 +26,19 @@
                     </template>
                     <template v-for="item in sideBar.children">
                         <el-menu-item
-                            :index="sideBar.path + '/' + item.path"
+                            :index="item.meta?.configFullPath"
                             v-if="!item.meta?.hideSideBar"
                         >{{ item.meta?.label }}</el-menu-item>
                     </template>
                 </el-sub-menu>
                 <el-menu-item
-                    :index="sideBar.path"
-                    v-if="!sideBar.children?.length && !sideBar.meta?.hideSideBar"
+                    :index="sideBar.children[0].meta?.configFullPath"
+                    v-if="sideBar.children?.length === 1 && !sideBar.meta?.hideSideBar"
                 >
                     <el-icon>
                         <briefcase />
                     </el-icon>
-                    <span>{{ sideBar.meta?.label }}</span>
+                    <span>{{ sideBar.children[0].meta?.label }}</span>
                 </el-menu-item>
             </template>
         </el-menu>
@@ -54,7 +54,7 @@ import {
 import MyRoute from '@/routes/routes'
 import { useActiveRouterStore } from '@/store/modules/activeRouter';
 import { storeToRefs } from 'pinia';
-const sideBars = MyRoute[0].children
+const sideBars = MyRoute
 /**
 * 路由对象
 */

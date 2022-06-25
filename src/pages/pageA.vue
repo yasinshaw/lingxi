@@ -5,8 +5,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
+import {
+  ref,
+  reactive,
+  toRefs,
+  onBeforeMount,
+  onMounted,
+  watchEffect,
+  computed,
+  defineComponent,
+} from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+defineComponent({
+  name: "pageA222"
+})
 
 /**
 * 路由对象

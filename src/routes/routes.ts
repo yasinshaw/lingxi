@@ -5,11 +5,19 @@ import { RouteRecordRaw } from 'vue-router'
 const dynamicRoute: RouteRecordRaw[] = [
     {
         path: '/home',
-        component: () => import('../pages/home.vue'),
-        meta: {
-            icon: 'home',
-            label: '主页',
-        },
+        component: Layout,
+        meta: {},
+        redirect: '/home/index',
+        children: [
+            {
+                path: 'index',
+                component: () => import('../pages/home.vue'),
+                meta: {
+                    icon: 'home',
+                    label: '主页',
+                }
+            }
+        ]
     },
     {
         path: '/articles',
@@ -17,7 +25,7 @@ const dynamicRoute: RouteRecordRaw[] = [
             icon: 'home',
             label: '文章管理',
         },
-        component: () => import('@/components/routerView.vue'),
+        component: Layout,
         redirect: '/articles/list',
         children: [
             {
@@ -46,28 +54,43 @@ const dynamicRoute: RouteRecordRaw[] = [
     },
     {
         path: '/a',
-        component: () => import('../pages/pageA.vue'),
-        meta: {
-            icon: 'home',
-            label: '页面A',
-        },
+        component: Layout,
+        redirect: '/a/index',
+        meta: {},
+        children: [
+            {
+                path: 'index',
+                component: () => import('../pages/pageA.vue'),
+                name: '/a/index',
+                meta: {
+                    icon: 'home',
+                    label: '页面A',
+                },
+            }
+        ]
     },
     {
         path: '/b',
-        component: () => import('../pages/pageB.vue'),
-        meta: {
-            icon: 'home',
-            label: '页面B',
-        },
+        redirect: '/b/index',
+        meta: {},
+        component: Layout,
+        children: [
+            {
+                path: 'index',
+                component: () => import('../pages/pageB.vue'),
+                meta: {
+                    icon: 'home',
+                    label: '页面B',
+                },
+            }
+        ]
     }
 ]
 
-const routes: RouteRecordRaw[] = [
+let routes: RouteRecordRaw[] = [
     {
         path: '/',
-        component: Layout,
-        redirect: '/home',
-        children: dynamicRoute,
+        redirect: '/home/index',
         meta: {}
     },
     {
@@ -78,7 +101,7 @@ const routes: RouteRecordRaw[] = [
 ]
 
 
-routes.concat(dynamicRoute)
+routes = routes.concat(dynamicRoute)
 function addFullPath(parentPath: string, routes: RouteRecordRaw[]) {
     routes.forEach(v => {
         if (v.path.startsWith('/')) {
@@ -86,11 +109,12 @@ function addFullPath(parentPath: string, routes: RouteRecordRaw[]) {
         } else {
             v.meta!.configFullPath = parentPath + '/' + v.path
         }
+        v.name = v.meta!.configFullPath as string
         if (v.children) {
             addFullPath(v.meta!.configFullPath as string, v.children)
         }
     })
 }
-addFullPath('/', routes)
+addFullPath('/', dynamicRoute)
 
 export default routes

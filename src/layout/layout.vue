@@ -27,10 +27,10 @@
               :name="item.path"
             ></el-tab-pane>
           </el-tabs>
-          <router-view v-slot="{ Component }">
+          <router-view v-slot="{ Component, route }">
             <transition>
-              <keep-alive>
-                <component :is="Component" />
+              <keep-alive :include="keepAlivePages">
+                <component :is="Component" :key="route.fullPath" />
               </keep-alive>
             </transition>
           </router-view>
@@ -44,9 +44,7 @@
 import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Aside from './aside.vue';
-import MyRoute from '@/routes/routes'
 import { useActiveRouterStore } from '@/store/modules/activeRouter';
-import { useRestoreActive } from 'element-plus';
 import { storeToRefs } from 'pinia';
 /**
 * 路由对象
@@ -77,7 +75,7 @@ defineExpose({
 })
 
 const { activeTab, routerTabs } = storeToRefs(useActiveRouterStore)
-const keepAlivePages = computed(() => routerTabs.value.map(v => v.path))
+const keepAlivePages = computed(() => routerTabs.value.map(v => v.componentName))
 
 function changeTab(name: string) {
   router.push(name)
