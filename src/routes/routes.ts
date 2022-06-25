@@ -13,7 +13,7 @@ const dynamicRoute: RouteRecordRaw[] = [
                 path: 'index',
                 component: () => import('../pages/home.vue'),
                 meta: {
-                    icon: 'home',
+                    icon: 'HomeFilled',
                     label: '主页',
                 }
             }
@@ -22,7 +22,7 @@ const dynamicRoute: RouteRecordRaw[] = [
     {
         path: '/articles',
         meta: {
-            icon: 'home',
+            icon: 'Collection',
             label: '文章管理',
         },
         component: Layout,
@@ -63,7 +63,7 @@ const dynamicRoute: RouteRecordRaw[] = [
                 component: () => import('../pages/pageA.vue'),
                 name: '/a/index',
                 meta: {
-                    icon: 'home',
+                    icon: 'Moon',
                     label: '页面A',
                 },
             }
@@ -79,7 +79,7 @@ const dynamicRoute: RouteRecordRaw[] = [
                 path: 'index',
                 component: () => import('../pages/pageB.vue'),
                 meta: {
-                    icon: 'home',
+                    icon: 'Mug',
                     label: '页面B',
                 },
             }
@@ -109,7 +109,6 @@ function addFullPath(parentPath: string, routes: RouteRecordRaw[]) {
         } else {
             v.meta!.configFullPath = parentPath + '/' + v.path
         }
-        v.name = v.meta!.configFullPath as string
         if (v.children) {
             addFullPath(v.meta!.configFullPath as string, v.children)
         }

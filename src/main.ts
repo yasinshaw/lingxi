@@ -24,28 +24,7 @@ const router = VueRouter.createRouter({
 })
 router.afterEach((to, from) => {
     useActiveRouterStore.changeActiveRouter(from, to)
-    if (from.matched.length > 1) {
-        // @ts-ignore
-        // console.log(from.matched[from.matched.length - 1].components.default.__name);
-    }
-    // @ts-ignore
-    console.log(to.matched[to.matched.length - 1].components.default.__name);
     return true;
-})
-
-// 为自定义的选项 'myOption' 注入一个处理器。
-app.mixin({
-    // mounted() {
-    //     defineComponent({
-    //         name: this.$route.path
-    //     })
-    // },
-    // activated() {
-    //     console.log(this.$options)
-    // },
-    // deactivated() {
-    //     console.log(this.$options.name);
-    // }
 })
 
 app.use(ElementPlus)
