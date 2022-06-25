@@ -7,25 +7,11 @@
           class="bg-contain bg-no-repeat bg-center h-16"
           style="background-image: url(/logo.png);"
       ></div>
-      <el-input v-model="data.username" placeholder="请输入用户名" clearable autofocus class="my-3 px-3"/>
-      <el-input
-          v-model="data.password"
-          type="password"
-          placeholder="请输入密码"
-          show-password
-          clearable
-          class="my-3 px-3"
-          @keyup.enter="login"
-      />
-      <div class="my-4">
-        <div class="flex flex-col items-center justify-center">
-          <el-button type="success" class="w-32 my-2" @click="login">登录</el-button>
-        </div>
-        <div class="flex flex-col items-center justify-center">
-          <el-button type="primary" class="w-32 my-2" plain @click="$router.push('/signin')">去注册</el-button>
-        </div>
-        <div class="flex flex-col items-center justify-center">
-          <router-link to="/forgot" class=" text-gray-400 text-sm">忘记密码？</router-link>
+      <p class="text-gray-400 text-center my-5">暂不支持找回密码，请联系管理员修改密码！</p>
+      <div class="my-4 px-3">
+        <div class="flex items-center justify-center">
+          <el-button type="primary" class="w-32 my-2 flex-1" plain @click="$router.push('/signin')">去注册</el-button>
+          <el-button type="success" class="w-32 my-2 flex-1" plain @click="$router.push('/login')">返回登录</el-button>
         </div>
       </div>
     </div>
@@ -35,7 +21,6 @@
 <script setup lang="ts">
 import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import {userUserStore} from "@/store/modules/user";
 
 /**
  * 路由对象
@@ -68,7 +53,7 @@ defineExpose({
 })
 
 function login() {
-  userUserStore.loginUser("username", "灵希", "/logo.png", "mytoken")
+  console.log(data.username)
   router.push('/')
 }
 

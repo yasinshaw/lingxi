@@ -6,7 +6,7 @@
       </el-aside>
       <el-container class="h-full flex flex-col">
         <el-header class="h-12 bg-gray-700 shadow-md flex justify-between">
-          <div class="text-white h-full flex items-center">你好，lingxi</div>
+          <div class="text-white h-full flex items-center">你好，{{currentUser.nickName}}</div>
           <div class="h-full flex items-center">
             <el-button type="primary" text @click="$router.push('/login')">注销</el-button>
           </div>
@@ -45,6 +45,7 @@ import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed 
 import { useRoute, useRouter } from 'vue-router';
 import Aside from './aside.vue';
 import { useActiveRouterStore } from '@/store/modules/activeRouter';
+import {userUserStore} from "@/store/modules/user";
 import { storeToRefs } from 'pinia';
 /**
 * 路由对象
@@ -95,6 +96,8 @@ function remove(name: string) {
   }
   useActiveRouterStore.removeRouterTabs(name)
 }
+
+const {currentUser} = storeToRefs(userUserStore)
 
 </script>
 <style>

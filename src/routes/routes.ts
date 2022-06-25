@@ -60,7 +60,7 @@ const dynamicRoute: RouteRecordRaw[] = [
         children: [
             {
                 path: 'index',
-                component: () => import('../pages/pageA.vue'),
+                component: () => import('../pages/pageA/pageA.vue'),
                 name: '/a/index',
                 meta: {
                     icon: 'Moon',
@@ -77,7 +77,7 @@ const dynamicRoute: RouteRecordRaw[] = [
         children: [
             {
                 path: 'index',
-                component: () => import('../pages/pageB.vue'),
+                component: () => import('../pages/pageB/pageB.vue'),
                 meta: {
                     icon: 'Mug',
                     label: '页面B',
@@ -96,6 +96,16 @@ let routes: RouteRecordRaw[] = [
     {
         path: '/login',
         component: () => import('../pages/login.vue'),
+        meta: {}
+    },
+    {
+        path: '/signin',
+        component: () => import('../pages/signin.vue'),
+        meta: {}
+    },
+    {
+        path: '/forgot',
+        component: () => import('../pages/forgot.vue'),
         meta: {}
     },
 ]

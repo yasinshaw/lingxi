@@ -1,7 +1,7 @@
 <template>
   <div class="shadow">
     <div
-        class="bg-contain bg-no-repeat bg-center h-16"
+        class="bg-contain bg-no-repeat bg-center h-16 my-3"
         style="background-image: url(/logo.png);"
     ></div>
 
