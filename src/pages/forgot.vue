@@ -1,6 +1,6 @@
 <template>
   <!--  背景图生成自https://wickedbackgrounds.com/app-->
-  <div class="h-screen bg-white bg-no-repeat bg-cover flex justify-center items-center p-5"
+  <div class="h-screen bg-white bg-no-repeat bg-cover flex justify-center items-center"
        style="background-image: url('/login_bg.svg')">
     <div class="bg-white w-96 shadow-md rounded p5">
       <div
@@ -8,10 +8,10 @@
           style="background-image: url(/lingxi.svg);"
       ></div>
       <p class="text-gray-400 text-center my-5">暂不支持找回密码，请联系管理员修改密码！</p>
-      <div class="my-4 px-3">
-        <div class="flex items-center justify-center">
-          <el-button type="primary" class="w-32 my-2 flex-1" plain @click="$router.push('/signin')">去注册</el-button>
-          <el-button type="success" class="w-32 my-2 flex-1" plain @click="$router.push('/login')">返回登录</el-button>
+      <div class="my-4 px-8">
+        <div class="flex items-center justify-between">
+          <el-button type="primary" class="w-32 my-2" plain @click="$router.push('/signin')">去注册</el-button>
+          <el-button type="success" class="w-32 my-2" plain @click="$router.push('/login')">返回登录</el-button>
         </div>
       </div>
     </div>

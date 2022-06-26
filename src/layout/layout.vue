@@ -42,11 +42,11 @@
             ></el-tab-pane>
           </el-tabs>
           <router-view v-slot="{ Component, route }">
-            <transition>
+<!--            <transition>-->
               <keep-alive :include="keepAlivePages">
                 <component :is="Component" :key="route.fullPath"/>
               </keep-alive>
-            </transition>
+<!--            </transition>-->
           </router-view>
         </el-main>
       </el-container>

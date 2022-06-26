@@ -1,21 +1,21 @@
 <template>
   <!--  背景图生成自https://wickedbackgrounds.com/app-->
-  <div class="h-screen bg-white bg-no-repeat bg-cover flex justify-center items-center p-5"
+  <div class="h-screen bg-white bg-no-repeat bg-cover flex justify-center items-center"
        style="background-image: url('/login_bg.svg')">
-    <div class="bg-white w-96 shadow-md rounded px-5">
+    <div class="bg-white w-96 shadow-md rounded px-8">
       <div
           class="bg-contain bg-no-repeat bg-center h-32"
           style="background-image: url(/lingxi.svg);"
       >
       </div>
-      <el-input v-model="data.username" placeholder="请输入用户名" clearable autofocus class="my-3 px-3"/>
+      <el-input v-model="data.username" placeholder="请输入用户名" clearable autofocus class="my-3"/>
       <el-input
           v-model="data.password"
           type="password"
           placeholder="请输入密码"
           show-password
           clearable
-          class="my-3 px-3"
+          class="my-3"
           @keyup.enter="login"
       />
       <div class="my-4">

@@ -19,6 +19,8 @@ const useActiveRouterStoreFunc = defineStore('activeRouter', {
     // state: () => ({ count: 0 })
     actions: {
         changeActiveRouter(from: RouteLocationNormalized, to: RouteLocationNormalized) {
+            const titleName = to.meta?.label? to.meta.label as string + ' | ' : ''
+            document.title = titleName + 'LingXi管理后台'
             if (to.meta?.hasNoTabs) {
                 return;
             }

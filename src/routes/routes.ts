@@ -97,6 +97,7 @@ let routes: RouteRecordRaw[] = [
         path: '/login',
         component: () => import('../pages/login.vue'),
         meta: {
+            label: '登录',
             hasNoTabs: true
         }
     },
@@ -104,6 +105,7 @@ let routes: RouteRecordRaw[] = [
         path: '/signin',
         component: () => import('../pages/signin.vue'),
         meta: {
+            label: '注册',
             hasNoTabs: true
         }
     },
@@ -111,6 +113,7 @@ let routes: RouteRecordRaw[] = [
         path: '/forgot',
         component: () => import('../pages/forgot.vue'),
         meta: {
+            label: '忘记密码',
             hasNoTabs: true
         }
     },
