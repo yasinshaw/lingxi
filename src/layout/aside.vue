@@ -1,7 +1,7 @@
 <template>
   <div class="shadow">
     <div
-        class="bg-contain bg-no-repeat bg-center h-14"
+        class="bg-contain bg-no-repeat bg-center h-32"
         style="background-image: url(/lingxi.svg);"
     ></div>
 

@@ -2,10 +2,10 @@
   <!--  背景图生成自https://wickedbackgrounds.com/app-->
   <div class="h-screen bg-white bg-no-repeat bg-cover flex justify-center items-center p-5"
        style="background-image: url('/login_bg.svg')">
-    <div class="bg-white w-96 shadow-md rounded p-5">
+    <div class="bg-white w-96 shadow-md rounded p5">
       <div
-          class="bg-contain bg-no-repeat bg-center h-16"
-          style="background-image: url(/logo.png);"
+          class="bg-contain bg-no-repeat bg-center h-32"
+          style="background-image: url(/lingxi.svg);"
       ></div>
       <p class="text-gray-400 text-center my-5">暂不支持找回密码，请联系管理员修改密码！</p>
       <div class="my-4 px-3">
