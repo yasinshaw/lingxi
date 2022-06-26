@@ -17,7 +17,7 @@
                 <el-dropdown-menu>
                   <el-dropdown-item @click="$router.push('/currentUser/userInfo')">个人信息</el-dropdown-item>
                   <el-dropdown-item @click="$router.push('/currentUser/changePassword')">修改密码</el-dropdown-item>
-                  <el-dropdown-item divided @click="$router.push('/login')">
+                  <el-dropdown-item divided @click="logout">
                     <span class="text-red-300">退出登录</span>
                   </el-dropdown-item>
                 </el-dropdown-menu>
@@ -61,6 +61,8 @@ import Aside from './aside.vue';
 import {useActiveRouterStore} from '@/store/modules/activeRouter';
 import {userUserStore} from "@/store/modules/user";
 import {storeToRefs} from 'pinia';
+import {storageLocal} from "@/utils/storage";
+import {STORRAGE_KEY_USER_INFO} from "@/types/constants";
 
 /**
  * 路由对象
@@ -113,6 +115,11 @@ function remove(name: string) {
 }
 
 const {currentUser} = storeToRefs(userUserStore)
+
+function logout() {
+  storageLocal.removeItem(STORRAGE_KEY_USER_INFO)
+  router.push('/login')
+}
 
 </script>
 <style>

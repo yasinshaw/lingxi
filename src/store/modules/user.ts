@@ -1,31 +1,22 @@
 import {defineStore} from 'pinia'
 import {store} from '..'
-import {RouteLocationNormalized} from 'vue-router'
+import {storageLocal} from "@/utils/storage";
+import {UserInfo} from "@/types/userInfo";
+import {STORRAGE_KEY_USER_INFO} from "@/types/constants";
 
-class UserInfo {
-    username: string = ""
-    nickName: string = "默认昵称"
-    avatar: string = "/avatar.png"
-    token: string = ""
-
-    constructor() {
-    }
-}
 
 const useUserStoreFunc = defineStore('user', {
     state: () => {
         return {
-            currentUser: new UserInfo(),
+            currentUser: storageLocal.getItemDefault(STORRAGE_KEY_USER_INFO, new UserInfo()),
         }
     },
     // could also be defined as
     // state: () => ({ count: 0 })
     actions: {
-        loginUser(username: string, nickName: string, avatar: string, token: string) {
-            this.currentUser.username = username
-            this.currentUser.nickName = nickName
-            this.currentUser.avatar = avatar
-            this.currentUser.token = token
+        loginUser(userInfo: UserInfo) {
+            this.currentUser = userInfo
+            storageLocal.setItem(STORRAGE_KEY_USER_INFO, this.currentUser)
         }
     },
 })

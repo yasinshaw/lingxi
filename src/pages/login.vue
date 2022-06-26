@@ -36,6 +36,7 @@
 import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {userUserStore} from "@/store/modules/user";
+import {UserInfo} from "@/types/userInfo";
 
 /**
  * 路由对象
@@ -68,7 +69,12 @@ defineExpose({
 })
 
 function login() {
-  userUserStore.loginUser("username", "灵希", "/avatar.png", "mytoken")
+  const userInfo = new UserInfo();
+  userInfo.username = data.username
+  userInfo.nickName = "灵希"
+  userInfo.avatar = "/avatar.png"
+  userInfo.token = "mytoken"
+  userUserStore.loginUser(userInfo)
   router.push('/')
 }
 
