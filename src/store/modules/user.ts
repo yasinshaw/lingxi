@@ -5,7 +5,7 @@ import {RouteLocationNormalized} from 'vue-router'
 class UserInfo {
     username: string = ""
     nickName: string = "默认昵称"
-    avatar: string = "/logo.png"
+    avatar: string = "/avatar.png"
     token: string = ""
 
     constructor() {

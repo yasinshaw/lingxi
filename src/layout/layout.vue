@@ -6,31 +6,45 @@
       </el-aside>
       <el-container class="h-full flex flex-col">
         <el-header class="h-12 bg-gray-700 shadow-md flex justify-between">
-          <div class="text-white h-full flex items-center">你好，{{currentUser.nickName}}</div>
+          <div class="text-white h-full flex items-center">Ling Xi 管理系统</div>
           <div class="h-full flex items-center">
-            <el-button type="primary" text @click="$router.push('/login')">注销</el-button>
+            <el-dropdown>
+              <div class="el-dropdown-link flex h-full items-center mr-5">
+                <span class="pr-3 text-white">{{ currentUser.nickName }}</span>
+                <el-avatar :size="30" :src="currentUser.avatar"/>
+              </div>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item @click="$router.push('/currentUser/userInfo')">个人信息</el-dropdown-item>
+                  <el-dropdown-item @click="$router.push('/currentUser/changePassword')">修改密码</el-dropdown-item>
+                  <el-dropdown-item divided @click="$router.push('/login')">
+                    <span class="text-red-300">退出登录</span>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </div>
         </el-header>
         <el-main class="flex-1">
           <el-tabs
-            v-model="activeTab"
-            @tab-change="changeTab"
-            @tab-remove="remove"
-            type="card"
-            :closable="routerTabs.length > 1"
-            class="demo-tabs"
+              v-model="activeTab"
+              @tab-change="changeTab"
+              @tab-remove="remove"
+              type="card"
+              :closable="routerTabs.length > 1"
+              class="demo-tabs"
           >
             <el-tab-pane
-              v-for="item in routerTabs"
-              :key="item.path"
-              :label="item.label"
-              :name="item.path"
+                v-for="item in routerTabs"
+                :key="item.path"
+                :label="item.label"
+                :name="item.path"
             ></el-tab-pane>
           </el-tabs>
           <router-view v-slot="{ Component, route }">
             <transition>
               <keep-alive :include="keepAlivePages">
-                <component :is="Component" :key="route.fullPath" />
+                <component :is="Component" :key="route.fullPath"/>
               </keep-alive>
             </transition>
           </router-view>
@@ -41,26 +55,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
 import Aside from './aside.vue';
-import { useActiveRouterStore } from '@/store/modules/activeRouter';
+import {useActiveRouterStore} from '@/store/modules/activeRouter';
 import {userUserStore} from "@/store/modules/user";
-import { storeToRefs } from 'pinia';
+import {storeToRefs} from 'pinia';
+
 /**
-* 路由对象
-*/
+ * 路由对象
+ */
 const route = useRoute();
 /**
-* 路由实例
-*/
+ * 路由实例
+ */
 const router = useRouter();
 //console.log('1-开始创建组件-setup')
 /**
-* 数据部分
-*/
-const data = reactive({
-})
+ * 数据部分
+ */
+const data = reactive({})
 onBeforeMount(() => {
   //console.log('2.组件挂载页面之前执行----onBeforeMount')
 })
@@ -75,12 +89,13 @@ defineExpose({
   ...toRefs(data),
 })
 
-const { activeTab, routerTabs } = storeToRefs(useActiveRouterStore)
+const {activeTab, routerTabs} = storeToRefs(useActiveRouterStore)
 const keepAlivePages = computed(() => routerTabs.value.map(v => v.componentName))
 
 function changeTab(name: string) {
   router.push(name)
 }
+
 function remove(name: string) {
   const pages = routerTabs.value
   let index = pages.findIndex(v => v.path == name)

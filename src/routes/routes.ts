@@ -1,5 +1,5 @@
 import Layout from '../layout/layout.vue'
-import { RouteRecordRaw } from 'vue-router'
+import {RouteRecordRaw} from 'vue-router'
 
 
 const dynamicRoute: RouteRecordRaw[] = [
@@ -96,22 +96,54 @@ let routes: RouteRecordRaw[] = [
     {
         path: '/login',
         component: () => import('../pages/login.vue'),
-        meta: {}
+        meta: {
+            hasNoTabs: true
+        }
     },
     {
         path: '/signin',
         component: () => import('../pages/signin.vue'),
-        meta: {}
+        meta: {
+            hasNoTabs: true
+        }
     },
     {
         path: '/forgot',
         component: () => import('../pages/forgot.vue'),
-        meta: {}
+        meta: {
+            hasNoTabs: true
+        }
+    },
+    {
+        path: '/currentUser',
+        meta: {
+            icon: 'Avatar',
+            label: '用户中心',
+        },
+        component: Layout,
+        redirect: '/currentUser/userInfo',
+        children: [
+            {
+                path: 'userInfo',
+                component: () => import('../pages/currentUser/userInfo.vue'),
+                meta: {
+                    label: '个人信息'
+                }
+            },
+            {
+                path: 'changePassword',
+                component: () => import('../pages/currentUser/changePassword.vue'),
+                meta: {
+                    label: '修改密码',
+                }
+            },
+        ]
     },
 ]
 
 
-routes = routes.concat(dynamicRoute)
+routes = dynamicRoute.concat(routes)
+
 function addFullPath(parentPath: string, routes: RouteRecordRaw[]) {
     routes.forEach(v => {
         if (v.path.startsWith('/')) {
@@ -124,6 +156,7 @@ function addFullPath(parentPath: string, routes: RouteRecordRaw[]) {
         }
     })
 }
-addFullPath('/', dynamicRoute)
+
+addFullPath('/', routes)
 
 export default routes

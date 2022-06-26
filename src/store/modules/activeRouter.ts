@@ -1,10 +1,12 @@
-import { defineStore } from 'pinia'
-import { store } from '..'
-import { RouteLocationNormalized } from 'vue-router'
+import {defineStore} from 'pinia'
+import {store} from '..'
+import {RouteLocationNormalized} from 'vue-router'
 
 class EditableTab {
-    constructor(public path: string, public label: string, public componentName: string) { }
+    constructor(public path: string, public label: string, public componentName: string) {
+    }
 }
+
 const useActiveRouterStoreFunc = defineStore('activeRouter', {
     state: () => {
         return {
@@ -17,7 +19,10 @@ const useActiveRouterStoreFunc = defineStore('activeRouter', {
     // state: () => ({ count: 0 })
     actions: {
         changeActiveRouter(from: RouteLocationNormalized, to: RouteLocationNormalized) {
-            const configPath = to.meta?.configFullPath as string
+            if (to.meta?.hasNoTabs) {
+                return;
+            }
+            const configPath = to.meta?.configFullPath as string;
             if (!configPath) {
                 return
             }

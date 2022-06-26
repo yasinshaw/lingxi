@@ -5,7 +5,7 @@
     <div class="bg-white w-96 shadow-md rounded p-5">
       <div
           class="bg-contain bg-no-repeat bg-center h-16"
-          style="background-image: url(/logo.png);"
+          style="background-image: url(/lingxi.svg);"
       ></div>
       <el-input v-model="data.username" placeholder="请输入用户名" clearable autofocus class="my-3 px-3"/>
       <el-input
@@ -68,7 +68,7 @@ defineExpose({
 })
 
 function login() {
-  userUserStore.loginUser("username", "灵希", "/logo.png", "mytoken")
+  userUserStore.loginUser("username", "灵希", "/avatar.png", "mytoken")
   router.push('/')
 }
 

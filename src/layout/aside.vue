@@ -1,8 +1,8 @@
 <template>
   <div class="shadow">
     <div
-        class="bg-contain bg-no-repeat bg-center h-16 my-3"
-        style="background-image: url(/logo.png);"
+        class="bg-contain bg-no-repeat bg-center h-14"
+        style="background-image: url(/lingxi.svg);"
     ></div>
 
     <el-menu
