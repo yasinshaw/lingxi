@@ -9,6 +9,7 @@ import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import {setupStore} from "@/store"
 import {useActiveRouterStore} from './store/modules/activeRouter'
+import {userUserStore} from "@/store/modules/user";
 
 
 const app = createApp(App)
@@ -21,6 +22,20 @@ const router = VueRouter.createRouter({
     // 4. 内部提供了 history 模式的实现。为了简单起见，我们在这里使用 hash 模式。
     history: VueRouter.createWebHashHistory(),
     routes, // `routes: routes` 的缩写
+})
+router.beforeEach((to, from, next) => {
+    if (userUserStore.currentUser.token != "") {
+        next()
+        return true
+    }
+    // todo 目前认为没标签页的都是在登录态，这块后续看下是不是需要单独的字段来配置
+    if (to.meta?.hasNoTabs) {
+        next()
+        return true
+    } else {
+        next('/login')
+        return true
+    }
 })
 router.afterEach((to, from) => {
     useActiveRouterStore.changeActiveRouter(from, to)
