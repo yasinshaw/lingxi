@@ -8,16 +8,27 @@
           style="background-image: url(/lingxi.svg);"
       >
       </div>
-      <el-input v-model="data.username" placeholder="请输入用户名" clearable autofocus class="my-3"/>
+      <el-input v-model="data.username" placeholder="请输入用户名" clearable autofocus class="my-2"/>
       <el-input
           v-model="data.password"
           type="password"
           placeholder="请输入密码"
           show-password
           clearable
-          class="my-3"
+          class="my-2"
           @keyup.enter="login"
       />
+      <el-input
+          clearable
+          :input-style="{ 'user-select': 'none' }"
+          v-model="data.inputVerifyCode"
+          class="my-2"
+          placeholder="验证码"
+      >
+        <template v-slot:append>
+          <image-verify v-model:code="data.verifyCode" :height="30" @update="refreshVerifyCode"/>
+        </template>
+      </el-input>
       <div class="my-4">
         <div class="flex flex-col items-center justify-center">
           <el-button type="success" class="w-32 my-2" @click="login">登录</el-button>
@@ -38,6 +49,7 @@ import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed} 
 import {useRoute, useRouter} from 'vue-router';
 import {userUserStore} from "@/store/modules/user";
 import {UserInfo} from "@/types/userInfo";
+import ImageVerify from "@/components/imageVerify.vue";
 
 /**
  * 路由对象
@@ -53,7 +65,9 @@ const router = useRouter();
  */
 const data = reactive({
   username: '',
-  password: ''
+  password: '',
+  inputVerifyCode: '',
+  verifyCode: ''
 })
 onBeforeMount(() => {
   //console.log('2.组件挂载页面之前执行----onBeforeMount')
@@ -79,6 +93,13 @@ function login() {
   router.push('/')
 }
 
+function refreshVerifyCode(code: string) {
+  data.inputVerifyCode = ''
+}
+
 </script>
 <style scoped lang='less'>
+:deep(.el-input-group__append, .el-input-group__prepend) {
+  padding: 0;
+}
 </style>
