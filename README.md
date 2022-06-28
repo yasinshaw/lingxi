@@ -1,16 +1,58 @@
-# Vue 3 + TypeScript + Vite
+## Ling Xi（灵希）管理系统简介
+Ling Xi管理系统是一个基于Vue3 + Java开发的通用的后台管理系统，可复用此项目代码快速搭建一个后台管理系统。
+同时会实现一个个人网站管理后台，包括：文章管理，微博管理，评论管理，订阅管理等基础功能。
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+该项目主要会维护两个分支版本。
+- main: 最新分支，打通后端接口，功能最齐全，主要会实现一个个人网站的后台管理系统
+- thin: 最小功能集合，其它项目可基于此分支快速搭建一个管理端的壳子
 
-## Recommended IDE Setup
+## 核心功能进展
+### thin部分功能
+- [x] 导航菜单与路由集成
+- [x] 标签页功能与keep-alive集成
+- [x] 用户登录状态判断，自动跳转登录页面
+- [ ] 前端mock服务与多环境配置
+- [ ] 自动化部署demo到github静态站点
+- [ ] 支持服务端渲染
+### main部分功能
+- [ ] 登录功能
+- [ ] 用户信息修改
+- [ ] 权限管理功能 + 动态路由
+- [ ] 文章管理
+- [ ] 微博管理
+- [ ] 作品管理
+- [ ] 订阅管理
+- [ ] 留言管理
+- [ ] 分类管理
+- [ ] 标签管理
+- [ ] 广告管理
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+## 启动命令
+```bash
+pnpm install
+pnpm run dev
+```
 
-## Type Support For `.vue` Imports in TS
+## 配套后端代码
+后端代码使用Java技术栈
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+后端服务地址待更新
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+## 相关截图
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+## 主要依赖
+- Vue3
+- TypeScript
+- Vite
+- VueRouter
+- Pinia
+- Element Plus
+- TailwindCss
+
+## 其他
+### 开源说明
+因本人精力有限，加上完不是专业的前端开发人员，所以写的代码难免有一些不完美之处，欢迎大家提交PR一起完善这个项目。
+本项目基于MIT协议，可免费商用。但如果基于此项目二次开源，需要取得作者授权
+
+### 微信群
+微信添加作者本人微信：yasinshaw，备注 Ling Xi，通过后会拉你进群
