@@ -1,7 +1,7 @@
 //模拟返回10条用户信息
 export default [
     {
-        url: "/api/getUsers", //匹配到指定url
+        url: "/getUsers", //匹配到指定url
         method: "get",        //请求类型
         response: () => {
             return {

@@ -1,7 +1,9 @@
 import axios from 'axios'
 
 axios.defaults.timeout = 50000
-
+axios.defaults.baseURL = '/api'
+axios.defaults.withCredentials = true
+axios.defaults.timeout = 5000
 axios.interceptors.request.use(config => {
     // ...
     return config
@@ -10,5 +12,5 @@ axios.interceptors.request.use(config => {
 })
 
 export function getUsers() {
-    return axios.get(`/api/getUsers`)
+    return axios.get(`/getUsers`)
 }

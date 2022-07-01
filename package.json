@@ -3,7 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development vite",
+    "dev": "vite --mode dev_mock",
+    "realdev": "vite --mode development",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },
