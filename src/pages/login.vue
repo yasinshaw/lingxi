@@ -50,6 +50,7 @@ import {useRoute, useRouter} from 'vue-router';
 import {userUserStore} from "@/store/modules/user";
 import {UserInfo} from "@/types/userInfo";
 import ImageVerify from "@/components/imageVerify.vue";
+import {getUsers} from "@/request";
 
 /**
  * 路由对象
@@ -72,8 +73,12 @@ const data = reactive({
 onBeforeMount(() => {
   //console.log('2.组件挂载页面之前执行----onBeforeMount')
 })
-onMounted(() => {
+onMounted(async () => {
   //console.log('3.-组件挂载到页面之后执行-------onMounted')
+  //实际开发过程中建议对api进行封装 搭配async/await使用
+  const users = await getUsers();
+  console.log(users.data)
+
 })
 watchEffect(() => {
 })
