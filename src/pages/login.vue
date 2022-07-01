@@ -78,7 +78,6 @@ onMounted(async () => {
   //实际开发过程中建议对api进行封装 搭配async/await使用
   const users = await getUsers();
   console.log(users.data)
-
 })
 watchEffect(() => {
 })
