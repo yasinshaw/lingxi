@@ -50,7 +50,7 @@ import {useRoute, useRouter} from 'vue-router';
 import {userUserStore} from "@/store/modules/user";
 import {UserInfo} from "@/types/userInfo";
 import ImageVerify from "@/components/imageVerify.vue";
-import {getUsers} from "@/request";
+import {loginApi} from "@/request";
 
 /**
  * 路由对象
@@ -76,8 +76,6 @@ onBeforeMount(() => {
 onMounted(async () => {
   //console.log('3.-组件挂载到页面之后执行-------onMounted')
   //实际开发过程中建议对api进行封装 搭配async/await使用
-  const users = await getUsers();
-  console.log(users.data)
 })
 watchEffect(() => {
 })
@@ -87,14 +85,11 @@ defineExpose({
   ...toRefs(data)
 })
 
-function login() {
-  const userInfo = new UserInfo();
-  userInfo.username = data.username
-  userInfo.nickName = "灵希"
-  userInfo.avatar = "/avatar.png"
-  userInfo.token = "mytoken"
-  userUserStore.loginUser(userInfo)
-  router.push('/')
+async function login() {
+  const response = await loginApi(data.username, data.password);
+  console.log(response)
+  // userUserStore.loginUser(userInfo)
+  // router.push('/')
 }
 
 function refreshVerifyCode(code: string) {

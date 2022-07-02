@@ -11,6 +11,20 @@ axios.interceptors.request.use(config => {
     return Promise.reject(error)
 })
 
-export function getUsers() {
-    return axios.get(`/getUsers`)
+axios.interceptors.response.use(config => {
+    // ...
+    const data = config.data;
+    if (data.code != 0) {
+        return Promise.reject(data.msg)
+    }
+    return data.data
+}, error => {
+    return Promise.reject(error)
+})
+
+export function loginApi(username: string, password: string) {
+    return axios.post(`/login`, {
+        username: username,
+        password: password
+    })
 }
