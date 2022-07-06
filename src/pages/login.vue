@@ -31,14 +31,14 @@
       </el-input>
       <div class="my-4">
         <div class="flex flex-col items-center justify-center">
-          <el-button type="success" class="w-32 my-2" @click="login">登录</el-button>
+          <el-button type="success" class="w-full my-2" @click="login">登录</el-button>
         </div>
-        <div class="flex flex-col items-center justify-center">
-          <el-button type="primary" class="w-32 my-2" plain @click="$router.push('/signin')">去注册</el-button>
-        </div>
-        <div class="flex flex-col items-center justify-center">
-          <router-link to="/forgot" class=" text-gray-400 text-sm">忘记密码？</router-link>
-        </div>
+        <!--        <div class="flex flex-col items-center justify-center">-->
+        <!--          <el-button type="primary" class="w-32 my-2" plain @click="$router.push('/signin')">去注册</el-button>-->
+        <!--        </div>-->
+        <!--        <div class="flex flex-col items-center justify-center">-->
+        <!--          <router-link to="/forgot" class=" text-gray-400 text-sm">忘记密码？</router-link>-->
+        <!--        </div>-->
       </div>
     </div>
   </div>
@@ -48,9 +48,9 @@
 import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {userUserStore} from "@/store/modules/user";
-import {UserInfo} from "@/types/userInfo";
 import ImageVerify from "@/components/imageVerify.vue";
-import {loginApi} from "@/request";
+import {currentUserInfoApi, loginApi} from "@/request";
+import {ElMessage} from "element-plus";
 
 /**
  * 路由对象
@@ -86,14 +86,25 @@ defineExpose({
 })
 
 async function login() {
-  const response = await loginApi(data.username, data.password);
-  console.log(response)
-  // userUserStore.loginUser(userInfo)
-  // router.push('/')
+  if (!data.username || !data.password) {
+    ElMessage.error('用户名或密码不能为空')
+    return
+  }
+  if (data.inputVerifyCode != data.verifyCode) {
+    ElMessage.error('验证码不正确，请刷新或重新输入')
+    return
+  }
+  const userInfo = await loginApi(data.username, data.password);
+  userUserStore.setUserInfo(userInfo)
+  // 测试jwt token链路有效
+  // const userInfo2 = await currentUserInfoApi();
+  // console.log(userInfo2)
+  await router.push('/')
 }
 
 function refreshVerifyCode(code: string) {
   data.inputVerifyCode = ''
+  data.verifyCode = code
 }
 
 </script>

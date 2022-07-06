@@ -62,7 +62,8 @@ import {useActiveRouterStore} from '@/store/modules/activeRouter';
 import {userUserStore} from "@/store/modules/user";
 import {storeToRefs} from 'pinia';
 import {storageLocal} from "@/utils/storage";
-import {STORRAGE_KEY_USER_INFO} from "@/types/constants";
+import {STORAGE_KEY_USER_INFO} from "@/types/constants";
+import {UserInfo} from "@/types/userInfo";
 
 /**
  * 路由对象
@@ -117,7 +118,8 @@ function remove(name: string) {
 const {currentUser} = storeToRefs(userUserStore)
 
 function logout() {
-  storageLocal.removeItem(STORRAGE_KEY_USER_INFO)
+  userUserStore.setUserInfo(new UserInfo())
+  userUserStore.setAuthorization('');
   router.push('/login')
 }
 
