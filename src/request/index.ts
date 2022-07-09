@@ -15,7 +15,6 @@ axios.interceptors.request.use(request => {
 })
 
 axios.interceptors.response.use(response => {
-    console.log(response)
     const data = response.data;
     if (response.headers.authorization) {
         userUserStore.setAuthorization(response.headers.authorization)

@@ -24,6 +24,7 @@
           v-model="data.inputVerifyCode"
           class="my-2"
           placeholder="验证码"
+          @keyup.enter = "login"
       >
         <template v-slot:append>
           <image-verify v-model:code="data.verifyCode" :height="30" @update="refreshVerifyCode"/>
@@ -94,11 +95,10 @@ async function login() {
     ElMessage.error('验证码不正确，请刷新或重新输入')
     return
   }
-  const userInfo = await loginApi(data.username, data.password);
-  userUserStore.setUserInfo(userInfo)
+  await loginApi(data.username, data.password);
   // 测试jwt token链路有效
-  // const userInfo2 = await currentUserInfoApi();
-  // console.log(userInfo2)
+  const userInfo = await currentUserInfoApi();
+  userUserStore.setUserInfo(userInfo)
   await router.push('/')
 }
 
