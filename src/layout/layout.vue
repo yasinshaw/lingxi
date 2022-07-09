@@ -10,8 +10,8 @@
           <div class="h-full flex items-center">
             <el-dropdown>
               <div class="el-dropdown-link flex h-full items-center mr-5">
-                <span class="pr-3 text-white">{{ currentUser.nickName }}</span>
-                <el-avatar :size="30" :src="currentUser.avatar"/>
+                <span class="pr-3 text-white">{{ currentUser?.nickName }}</span>
+                <el-avatar :size="30" :src="currentUser?.avatar"/>
               </div>
               <template #dropdown>
                 <el-dropdown-menu>
@@ -61,9 +61,6 @@ import Aside from './aside.vue';
 import {useActiveRouterStore} from '@/store/modules/activeRouter';
 import {userUserStore} from "@/store/modules/user";
 import {storeToRefs} from 'pinia';
-import {storageLocal} from "@/utils/storage";
-import {STORAGE_KEY_USER_INFO} from "@/types/constants";
-import {UserInfo} from "@/types/userInfo";
 
 /**
  * 路由对象

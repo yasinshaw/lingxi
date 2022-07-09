@@ -19,6 +19,10 @@ const useUserStoreFunc = defineStore('user', {
             this.currentUser = userInfo
             storageLocal.setItem(STORAGE_KEY_USER_INFO, this.currentUser)
         },
+        updateInfo(nickName: string, avatar: string) {
+            this.currentUser!.nickName = nickName
+            this.currentUser!.avatar = avatar
+        },
         setAuthorization(authorization: string) {
             this.authorization = authorization
             storageLocal.setItem(STORAGE_KEY_AUTHORIZATION, this.authorization)
