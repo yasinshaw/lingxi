@@ -118,7 +118,7 @@ function remove(name: string) {
 const {currentUser} = storeToRefs(userUserStore)
 
 function logout() {
-  userUserStore.setUserInfo(new UserInfo())
+  userUserStore.setUserInfo(null)
   userUserStore.setAuthorization('');
   router.push('/login')
 }

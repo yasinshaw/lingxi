@@ -33,7 +33,7 @@ class sessionStorageProxy implements ProxyStorage, ExtendProxyStorage {
     }
 
     // 带默认值地取
-    public getItemDefault<T>(key: string, defaultValue: T): T {
+    public getItemDefault<T>(key: string, defaultValue: T ): T {
         let value = this.storage.getItem(key);
         if (value) {
             return JSON.parse(value);

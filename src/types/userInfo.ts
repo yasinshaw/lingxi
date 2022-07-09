@@ -1,9 +1,22 @@
-export class UserInfo {
-    public id: number = 0
-    public username: string = ""
-    public nickName: string = "默认昵称"
-    public avatar: string = "/avatar.png"
+export type Nullable<T> = T | null;
 
-    constructor() {
-    }
+export interface UserInfo {
+    avatar:      string;
+    id:          number;
+    nickName:    string;
+    permissions: Permission[];
+    roles:       Role[];
+    username:    string;
+}
+
+export interface Permission {
+    id?:    number;
+    type?:  string[];
+    value?: string;
+}
+
+export interface Role {
+    code?: string;
+    id?:   number;
+    name?: string;
 }

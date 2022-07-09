@@ -24,7 +24,7 @@ const router = VueRouter.createRouter({
     routes, // `routes: routes` 的缩写
 })
 router.beforeEach((to, from, next) => {
-    if (userUserStore.currentUser.token != "") {
+    if (userUserStore.currentUser) {
         next()
         return true
     }
