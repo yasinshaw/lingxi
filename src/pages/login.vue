@@ -50,8 +50,8 @@ import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed} 
 import {useRoute, useRouter} from 'vue-router';
 import {userUserStore} from "@/store/modules/user";
 import ImageVerify from "@/components/imageVerify.vue";
-import {currentUserInfoApi, loginApi} from "@/request";
 import {ElMessage} from "element-plus";
+import {currentUserInfoApi, loginApi} from "@/request/user";
 
 /**
  * 路由对象

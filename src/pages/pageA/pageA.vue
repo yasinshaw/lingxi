@@ -16,9 +16,6 @@ import {
   defineComponent,
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-defineComponent({
-  name: "pageA222"
-})
 
 /**
 * 路由对象
