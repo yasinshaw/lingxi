@@ -11,9 +11,8 @@
 <script setup lang="ts">
 import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import {getPermissionListApi} from "@/request/auth";
-import {Permission} from "@/types/auth";
-import {Page} from "@/types/common";
+import {api} from "@/request";
+import {PagePermissionInfoResponse} from "@/request/generator";
 
 /**
  * 路由对象
@@ -27,15 +26,17 @@ const router = useRouter();
 /**
  * 数据部分
  */
+const tableData : PagePermissionInfoResponse = {}
 const data = reactive({
-  tableData: new Page<Permission>()
+  tableData: tableData
 })
 onBeforeMount(() => {
   //console.log('2.组件挂载页面之前执行----onBeforeMount')
 })
 onMounted(async () => {
   //console.log('3.-组件挂载到页面之后执行-------onMounted')
-  data.tableData = await getPermissionListApi({page: 0, size: 10})
+  data.tableData = (await api.AuthReadControllerApi.getPermissionList(0, 10)).data
+  console.log(router.options.routes)
 })
 watchEffect(() => {
 })

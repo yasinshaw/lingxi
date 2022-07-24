@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {ElMessage} from "element-plus";
 import {userUserStore} from "@/store/modules/user";
+import {AuthReadControllerApi, AuthWriteControllerApi, CommonControllerApi} from "@/request/generator";
 
 axios.defaults.timeout = 50000
 axios.defaults.baseURL = '/api'
@@ -22,10 +23,18 @@ axios.interceptors.response.use(response => {
         ElMessage.error(data.message)
         return Promise.reject()
     }
-    return data.data
+    return data
 }, error => {
     return Promise.reject(error)
 })
 
 const $axios = axios
-export default $axios
+const api = {
+    AuthReadControllerApi: new AuthReadControllerApi(undefined, "", axios),
+    AuthWriteControllerApi: new AuthWriteControllerApi(undefined, "", axios),
+    CommonControllerApi: new CommonControllerApi(undefined, "", axios),
+}
+export {
+    $axios,
+    api
+}

@@ -38,7 +38,7 @@ import {
 }
   from 'vue'
 import {ElMessage} from "element-plus";
-import {changePasswordApi} from "../../request/auth";
+import {api} from "../../request";
 
 export default defineComponent({
   name: 'changePassword',
@@ -78,7 +78,11 @@ export default defineComponent({
           ElMessage.error('两次输入密码不相等，请重新输入！')
           return
         }
-        await changePasswordApi(state.changePwdForm.oldPwd, state.changePwdForm.newPwd)
+        await api.AuthWriteControllerApi.changePassword(undefined, {
+              oldPassword: state.changePwdForm.oldPwd,
+              newPassword: state.changePwdForm.newPwd
+            }
+        )
         ElMessage.success('修改成功，下次登录生效！')
       })
     }

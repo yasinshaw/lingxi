@@ -17,9 +17,9 @@ import {ref} from 'vue'
 import type {UploadProps} from 'element-plus'
 import {ElMessage} from 'element-plus'
 import {Plus} from '@element-plus/icons-vue'
-import {getQiniuFileTokenApi} from "@/request/common";
 import {getRandomFilePath} from "@/utils/file";
 import {FILE__PREFIX} from "@/types/constants";
+import {api} from "@/request";
 
 const props = defineProps({
   imageUrl: String
@@ -48,7 +48,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = async (rawFile) => {
     ElMessage.error('Avatar picture size can not exceed 2MB!')
     return false
   }
-  uploadData.value.token = await getQiniuFileTokenApi()
+  uploadData.value.token = (await api.CommonControllerApi.getToken()).data
   uploadData.value.key = getRandomFilePath() + '.' + rawFile.type.substring('image/'.length)
   return true
 }

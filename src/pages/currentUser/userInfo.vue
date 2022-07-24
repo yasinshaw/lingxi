@@ -36,8 +36,8 @@ import {
   from 'vue'
 import {ElMessage} from "element-plus";
 import {userUserStore} from "../../store/modules/user";
-import {changeCurrentUserInfoApi} from "../../request/auth";
 import ImageUpload from "../../components/imageUpload.vue";
+import {api} from "../../request";
 
 export default defineComponent({
   name: 'userInfo',
@@ -65,7 +65,11 @@ export default defineComponent({
     const submitForm = () => {
       instance.ctx.$refs['vChangePwdForm'].validate(async valid => {
         if (!valid) return
-        await changeCurrentUserInfoApi(state.changePwdForm.nickName, state.changePwdForm.avatarInput)
+        await api.AuthWriteControllerApi.updateCurrentUserInfo(undefined,
+            {
+              nickName: state.changePwdForm.nickName,
+              avatar: state.changePwdForm.avatarInput
+            })
         userUserStore.updateInfo(state.changePwdForm.nickName, state.changePwdForm.avatarInput)
         ElMessage.success('修改成功')
       })

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "target": "esnext",
     "useDefineForClassFields": true,
     "module": "esnext",
@@ -28,6 +29,8 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue"
+  ],
+  "exclude": [
   ],
   "references": [
     {

@@ -51,7 +51,7 @@ import {useRoute, useRouter} from 'vue-router';
 import {userUserStore} from "@/store/modules/user";
 import ImageVerify from "@/components/imageVerify.vue";
 import {ElMessage} from "element-plus";
-import {currentUserInfoApi, loginApi} from "@/request/auth";
+import {api} from "@/request";
 
 /**
  * 路由对象
@@ -95,9 +95,13 @@ async function login() {
     ElMessage.error('验证码不正确，请刷新或重新输入')
     return
   }
-  await loginApi(data.username, data.password);
+  // await loginApi(data.username, data.password);
+  await api.AuthWriteControllerApi.login(undefined, {
+    username: data.username,
+    password: data.password
+  })
   // 测试jwt token链路有效
-  const userInfo = await currentUserInfoApi();
+  const userInfo = (await api.AuthReadControllerApi.getCurrentUserInfo(undefined)).data;
   userUserStore.setUserInfo(userInfo)
   await router.push('/')
 }
