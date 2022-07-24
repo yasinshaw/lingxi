@@ -8,9 +8,12 @@ https://www.vform666.com
     <el-col :span="6" :offset="9" class="grid-cell">
       <el-form :model="changePwdForm" ref="vChangePwdForm" :rules="rules" label-position="top" label-width="80px"
                size="default" @submit.prevent>
-        <el-form-item label="用户头像地址" prop="avatarInput">
-          <el-input v-model="changePwdForm.avatarInput" type="text" clearable></el-input>
-        </el-form-item>
+        <div class="flex justify-center">
+          <el-form-item>
+            <ImageUpload :imageUrl="changePwdForm.avatarInput" @imageChanged="imageChanged">
+            </ImageUpload>
+          </el-form-item>
+        </div>
         <el-form-item label="用户昵称" prop="nickName" class="required">
           <el-input v-model="changePwdForm.nickName" type="text" clearable></el-input>
         </el-form-item>
@@ -33,11 +36,12 @@ import {
   from 'vue'
 import {ElMessage} from "element-plus";
 import {userUserStore} from "../../store/modules/user";
-import {changeCurrentUserInfoApi} from "../../request/user";
+import {changeCurrentUserInfoApi} from "../../request/auth";
+import ImageUpload from "../../components/imageUpload.vue";
 
 export default defineComponent({
   name: 'userInfo',
-  components: {},
+  components: {ImageUpload, fileUpload: ImageUpload},
   props: {},
   setup() {
     const currentUser = userUserStore.currentUser;
@@ -56,9 +60,6 @@ export default defineComponent({
           message: '字段值不可为空',
         }],
       },
-      avatarFileList: [],
-      avatarUploadHeaders: {},
-      avatarUploadData: {},
     })
     const instance = getCurrentInstance()
     const submitForm = () => {
@@ -72,10 +73,15 @@ export default defineComponent({
     const resetForm = () => {
       instance.ctx.$refs['vChangePwdForm'].resetFields()
     }
+    const imageChanged = (e) => {
+      console.log(e)
+      state.changePwdForm.avatarInput = e
+    }
     return {
       ...toRefs(state),
       submitForm,
       resetForm,
+      imageChanged
     }
 
   }

@@ -1,6 +1,5 @@
-export type Nullable<T> = T | null;
 
-export interface UserInfo {
+export interface Auth {
     avatar:      string;
     id:          number;
     nickName:    string;

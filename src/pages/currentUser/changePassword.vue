@@ -38,7 +38,7 @@ import {
 }
   from 'vue'
 import {ElMessage} from "element-plus";
-import {changePasswordApi} from "../../request/user";
+import {changePasswordApi} from "../../request/auth";
 
 export default defineComponent({
   name: 'changePassword',

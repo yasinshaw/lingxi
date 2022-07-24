@@ -142,6 +142,38 @@ let routes: RouteRecordRaw[] = [
             },
         ]
     },
+    {
+        path: '/permissions',
+        meta: {
+            icon: 'Lock',
+            label: '权限中心',
+        },
+        component: Layout,
+        redirect: '/permissions/permissionList',
+        children: [
+            {
+                path: 'permissionList',
+                component: () => import('../pages/permissions/permissionList.vue'),
+                meta: {
+                    label: '权限管理'
+                }
+            },
+            {
+                path: 'roleList',
+                component: () => import('../pages/permissions/roleList.vue'),
+                meta: {
+                    label: '角色管理',
+                }
+            },
+            {
+                path: 'userList',
+                component: () => import('../pages/permissions/userList.vue'),
+                meta: {
+                    label: '用户管理',
+                }
+            },
+        ]
+    },
 ]
 
 
