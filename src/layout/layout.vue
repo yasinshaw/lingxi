@@ -25,7 +25,14 @@
             </el-dropdown>
           </div>
         </el-header>
-        <el-main class="flex-1">
+        <el-main class="flex-1 relative">
+          <div class="tab-operation flex absolute right-5 top-8 z-10">
+            <el-button-group>
+              <el-button size="small" icon="Close" @click="closeTabLeft">左侧</el-button>
+              <el-button size="small" icon="Close" @click="closeTabRight">右侧</el-button>
+              <el-button size="small" icon="Close" @click="closeTabOthers">其它</el-button>
+            </el-button-group>
+          </div>
           <el-tabs
               v-model="activeTab"
               @tab-change="changeTab"
@@ -42,11 +49,11 @@
             ></el-tab-pane>
           </el-tabs>
           <router-view v-slot="{ Component, route }">
-<!--            <transition>-->
-              <keep-alive :include="keepAlivePages">
-                <component :is="Component" :key="route.fullPath"/>
-              </keep-alive>
-<!--            </transition>-->
+            <!--            <transition>-->
+            <keep-alive :include="keepAlivePages">
+              <component :is="Component" :key="route.fullPath"/>
+            </keep-alive>
+            <!--            </transition>-->
           </router-view>
         </el-main>
       </el-container>
@@ -110,6 +117,18 @@ function remove(name: string) {
     }
   }
   useActiveRouterStore.removeRouterTabs(name)
+}
+
+function closeTabLeft() {
+  useActiveRouterStore.closeTabLeft()
+}
+
+function closeTabRight() {
+  useActiveRouterStore.closeTabRight()
+}
+
+function closeTabOthers() {
+  useActiveRouterStore.closeTabOthers()
 }
 
 const {currentUser} = storeToRefs(userUserStore)

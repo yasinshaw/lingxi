@@ -15,6 +15,9 @@ const useActiveRouterStoreFunc = defineStore('activeRouter', {
             routerTabs: new Array<EditableTab>()
         }
     },
+    getters: {
+        activeIndex: (state) => state.routerTabs.findIndex(v => v.path == state.activeTab),
+    },
     // could also be defined as
     // state: () => ({ count: 0 })
     actions: {
@@ -47,6 +50,16 @@ const useActiveRouterStoreFunc = defineStore('activeRouter', {
             if (index != -1) {
                 this.routerTabs.splice(index, 1)
             }
+        },
+        closeTabLeft() {
+            this.routerTabs.splice(0, this.activeIndex)
+        },
+        closeTabRight() {
+            this.routerTabs.length = this.activeIndex + 1
+        },
+        closeTabOthers() {
+            this.closeTabLeft()
+            this.closeTabRight()
         }
     },
 })
