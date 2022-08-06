@@ -6,7 +6,7 @@
       <el-table-column prop="value" label="值"/>
       <el-table-column width="120">
         <template #default="scope">
-          <el-button type="primary" @click="editRoles(scope.row)">
+          <el-button type="primary" @click="editRoles(scope.row)" link>
             关联角色
           </el-button>
         </template>
@@ -126,18 +126,18 @@ const filterRole = (query: string, item: Option) => {
   return item.label!.toLowerCase().includes(query.toLowerCase())
 }
 const save = async () => {
-  console.log(data.roles)
   await api.AuthWriteControllerApi.updatePermissionRoleRelation(undefined, {
     permissionId: data.currentPermission.id!,
     roleIds: data.roles,
   })
   ElMessage.success('保存成功')
+  data.drawer = false
 }
 const handlePageChange = async () => {
   await getPermissionList()
 }
 const addAllRoles = () => {
-  data.allRoles.filter(x => !(x.key in data.roles)).forEach(x => {
+  data.allRoles.filter(x => !data.roles.includes(x.key)).forEach(x => {
     data.roles.push(x.key)
   })
 
