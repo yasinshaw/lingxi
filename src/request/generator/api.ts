@@ -587,6 +587,25 @@ export enum UpdatePermissionRequestTypeEnum {
 /**
  * 
  * @export
+ * @interface UpdatePermissionRoleRelationRequest
+ */
+export interface UpdatePermissionRoleRelationRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdatePermissionRoleRelationRequest
+     */
+    permissionId: number;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof UpdatePermissionRoleRelationRequest
+     */
+    roleIds: Array<number>;
+}
+/**
+ * 
+ * @export
  * @interface UpdateRoleRequest
  */
 export interface UpdateRoleRequest {
@@ -1725,6 +1744,46 @@ export const AuthWriteControllerApiAxiosParamCreator = function (configuration?:
         },
         /**
          * 
+         * @summary /admin/updateManuPermissions
+         * @param {string} [authorization] 
+         * @param {Array<string>} [requestBody] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateManuPermissions: async (authorization?: string, requestBody?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/admin/updateManuPermissions`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof requestBody !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(requestBody !== undefined ? requestBody : {}) : (requestBody || "");
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary /admin/permission/update
          * @param {string} [authorization] 
          * @param {UpdatePermissionRequest} [updatePermissionRequest] 
@@ -1757,6 +1816,46 @@ export const AuthWriteControllerApiAxiosParamCreator = function (configuration?:
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             const needsSerialization = (typeof updatePermissionRequest !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(updatePermissionRequest !== undefined ? updatePermissionRequest : {}) : (updatePermissionRequest || "");
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary /admin/user/updatePermissionRoleRelation
+         * @param {string} [authorization] 
+         * @param {UpdatePermissionRoleRelationRequest} [updatePermissionRoleRelationRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updatePermissionRoleRelation: async (authorization?: string, updatePermissionRoleRelationRequest?: UpdatePermissionRoleRelationRequest, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/admin/user/updatePermissionRoleRelation`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorization !== undefined && authorization !== null) {
+                localVarHeaderParameter['Authorization'] = String(authorization);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof updatePermissionRoleRelationRequest !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(updatePermissionRoleRelationRequest !== undefined ? updatePermissionRoleRelationRequest : {}) : (updatePermissionRoleRelationRequest || "");
 
             return {
                 url: globalImportUrl.format(localVarUrlObj),
@@ -1958,6 +2057,21 @@ export const AuthWriteControllerApiFp = function(configuration?: Configuration) 
         },
         /**
          * 
+         * @summary /admin/updateManuPermissions
+         * @param {string} [authorization] 
+         * @param {Array<string>} [requestBody] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateManuPermissions(authorization?: string, requestBody?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await AuthWriteControllerApiAxiosParamCreator(configuration).updateManuPermissions(authorization, requestBody, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary /admin/permission/update
          * @param {string} [authorization] 
          * @param {UpdatePermissionRequest} [updatePermissionRequest] 
@@ -1966,6 +2080,21 @@ export const AuthWriteControllerApiFp = function(configuration?: Configuration) 
          */
         async updatePermission(authorization?: string, updatePermissionRequest?: UpdatePermissionRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await AuthWriteControllerApiAxiosParamCreator(configuration).updatePermission(authorization, updatePermissionRequest, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary /admin/user/updatePermissionRoleRelation
+         * @param {string} [authorization] 
+         * @param {UpdatePermissionRoleRelationRequest} [updatePermissionRoleRelationRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updatePermissionRoleRelation(authorization?: string, updatePermissionRoleRelationRequest?: UpdatePermissionRoleRelationRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await AuthWriteControllerApiAxiosParamCreator(configuration).updatePermissionRoleRelation(authorization, updatePermissionRoleRelationRequest, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -2088,6 +2217,17 @@ export const AuthWriteControllerApiFactory = function (configuration?: Configura
         },
         /**
          * 
+         * @summary /admin/updateManuPermissions
+         * @param {string} [authorization] 
+         * @param {Array<string>} [requestBody] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateManuPermissions(authorization?: string, requestBody?: Array<string>, options?: any): AxiosPromise<object> {
+            return AuthWriteControllerApiFp(configuration).updateManuPermissions(authorization, requestBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary /admin/permission/update
          * @param {string} [authorization] 
          * @param {UpdatePermissionRequest} [updatePermissionRequest] 
@@ -2096,6 +2236,17 @@ export const AuthWriteControllerApiFactory = function (configuration?: Configura
          */
         updatePermission(authorization?: string, updatePermissionRequest?: UpdatePermissionRequest, options?: any): AxiosPromise<object> {
             return AuthWriteControllerApiFp(configuration).updatePermission(authorization, updatePermissionRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary /admin/user/updatePermissionRoleRelation
+         * @param {string} [authorization] 
+         * @param {UpdatePermissionRoleRelationRequest} [updatePermissionRoleRelationRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updatePermissionRoleRelation(authorization?: string, updatePermissionRoleRelationRequest?: UpdatePermissionRoleRelationRequest, options?: any): AxiosPromise<object> {
+            return AuthWriteControllerApiFp(configuration).updatePermissionRoleRelation(authorization, updatePermissionRoleRelationRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2221,6 +2372,19 @@ export class AuthWriteControllerApi extends BaseAPI {
 
     /**
      * 
+     * @summary /admin/updateManuPermissions
+     * @param {string} [authorization] 
+     * @param {Array<string>} [requestBody] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthWriteControllerApi
+     */
+    public updateManuPermissions(authorization?: string, requestBody?: Array<string>, options?: any) {
+        return AuthWriteControllerApiFp(this.configuration).updateManuPermissions(authorization, requestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary /admin/permission/update
      * @param {string} [authorization] 
      * @param {UpdatePermissionRequest} [updatePermissionRequest] 
@@ -2230,6 +2394,19 @@ export class AuthWriteControllerApi extends BaseAPI {
      */
     public updatePermission(authorization?: string, updatePermissionRequest?: UpdatePermissionRequest, options?: any) {
         return AuthWriteControllerApiFp(this.configuration).updatePermission(authorization, updatePermissionRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary /admin/user/updatePermissionRoleRelation
+     * @param {string} [authorization] 
+     * @param {UpdatePermissionRoleRelationRequest} [updatePermissionRoleRelationRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthWriteControllerApi
+     */
+    public updatePermissionRoleRelation(authorization?: string, updatePermissionRoleRelationRequest?: UpdatePermissionRoleRelationRequest, options?: any) {
+        return AuthWriteControllerApiFp(this.configuration).updatePermissionRoleRelation(authorization, updatePermissionRoleRelationRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
