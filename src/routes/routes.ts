@@ -121,6 +121,7 @@ let routes: RouteRecordRaw[] = [
         path: '/currentUser',
         meta: {
             icon: 'Avatar',
+            hideSideBar: true,
             label: '用户中心',
         },
         component: Layout,
