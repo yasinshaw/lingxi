@@ -98,7 +98,7 @@
       title="编辑角色"
   >
 
-    <el-form :model="data.currentRole" ref="vForm" :rules="rules" label-position="top" label-width="80px"
+    <el-form :model="data.currentRole" ref="vForm" :rules="rules" label-position="left" label-width="80px"
              size="default" @submit.prevent>
       <el-form-item label="id" prop="id" class="required" v-show="!data.isAddRole">
         <el-input v-model="data.currentRole.id" disabled/>
@@ -177,25 +177,31 @@ const getRoleList = async () => {
   data.totalNumber = tableData.totalElements!
 }
 
-onMounted(async () => {
-  await getRoleList()
-  //console.log('3.-组件挂载到页面之后执行-------onMounted')
+const getAllPermissions = async () => {
   const allPermissions = (await api.AuthReadControllerApi.getPermissionList(0, 999)).data.content
-  allPermissions!.forEach(x => {
-    data.allPermissions.push({
+  data.allPermissions = allPermissions!.map(x => {
+    return {
       key: x.id!,
       label: x.value!,
       disabled: false
-    })
+    }
   })
-  const users = (await api.AuthReadControllerApi.getUserList(0, 999)).data.content
-  users!.forEach(x => {
-    data.allUsers.push({
+}
+
+const getAllUsers = async () => {
+  const allUsers = (await api.AuthReadControllerApi.getUserList(0, 999)).data.content
+  data.allUsers = allUsers!.map(x => {
+    return {
       key: x.id!,
       label: x.nickName!,
       disabled: false
-    })
+    }
   })
+}
+
+onMounted(async () => {
+  await getRoleList()
+  //console.log('3.-组件挂载到页面之后执行-------onMounted')
 })
 
 watchEffect(() => {
@@ -203,22 +209,18 @@ watchEffect(() => {
 // 使用toRefs解构
 // let { } = { ...toRefs(data) }
 const editPermissions = async (role: RoleInfoResponse) => {
+  await getAllPermissions()
   data.currentRole = role
-  data.permissionIds = []
   const permissions = (await api.AuthReadControllerApi.getPermissionListByRoleId(role.id!, 0, 999)).data.content
-  permissions!.forEach(x => {
-    data.permissionIds.push(x.id!)
-  })
+  data.permissionIds = permissions!.map(x => x.id!)
   data.permissionDrawer = true
 }
 
 const editUsers = async (role: RoleInfoResponse) => {
+  await getAllUsers()
   data.currentRole = role
-  data.userIds = []
   const users = (await api.AuthReadControllerApi.getUserListByRoleId(role.id!, 0, 999)).data.content
-  users!.forEach(x => {
-    data.userIds.push(x.id!)
-  })
+  data.userIds = users!.map(x => x.id!)
   data.userDrawer = true
 }
 
@@ -301,6 +303,7 @@ const saveUsers = async () => {
 const instance = getCurrentInstance()
 
 const submitForm = () => {
+// @ts-ignore
   instance!.ctx.$refs['vForm'].validate(async valid => {
     if (!valid) return
     if (data.isAddRole) {

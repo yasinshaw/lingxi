@@ -30,7 +30,7 @@
       title="关联角色"
   >
     <el-transfer
-        v-model="data.roles"
+        v-model="data.roleIds"
         filterable
         :filter-method="filterRole"
         :titles="['全部角色', '已关联角色']"
@@ -81,7 +81,7 @@ const data = reactive({
   tableData: {},
   currentPermission: {} as PermissionInfoResponse,
   drawer: false,
-  roles: new Array<number>(),
+  roleIds: new Array<number>(),
   allRoles: new Array<Option>(),
   currentPage: 1,
   pageSize: 10,
@@ -96,17 +96,20 @@ const getPermissionList = async () => {
   data.totalNumber = tableData.totalElements!
 }
 
-onMounted(async () => {
-  await getPermissionList()
-  //console.log('3.-组件挂载到页面之后执行-------onMounted')
-  const allRoles = (await api.AuthReadControllerApi.getRoleList(0, 999)).data.content
-  allRoles!.forEach(x => {
-    data.allRoles.push({
+const getAllRoles = async () => {
+  const roles = (await api.AuthReadControllerApi.getRoleList(0, 999)).data.content
+  data.allRoles = roles!.map(x => {
+    return {
       key: x.id!,
       label: x.name!,
       disabled: false
-    })
+    }
   })
+}
+
+onMounted(async () => {
+  await getPermissionList()
+  //console.log('3.-组件挂载到页面之后执行-------onMounted')
 })
 
 watchEffect(() => {
@@ -114,12 +117,10 @@ watchEffect(() => {
 // 使用toRefs解构
 // let { } = { ...toRefs(data) }
 const editRoles = async (permission: PermissionInfoResponse) => {
+  await getAllRoles()
   data.currentPermission = permission
-  data.roles = []
   const roles = (await api.AuthReadControllerApi.getRoleListByPermissionId(permission.id!, 0, 999)).data.content
-  roles!.forEach(x => {
-    data.roles.push(x.id!)
-  })
+  data.roleIds = roles!.map(x => x.id!)
   data.drawer = true
 }
 const filterRole = (query: string, item: Option) => {
@@ -128,7 +129,7 @@ const filterRole = (query: string, item: Option) => {
 const save = async () => {
   await api.AuthWriteControllerApi.updatePermissionRoleRelation(undefined, {
     permissionId: data.currentPermission.id!,
-    roleIds: data.roles,
+    roleIds: data.roleIds,
   })
   ElMessage.success('保存成功')
   data.drawer = false
@@ -137,8 +138,8 @@ const handlePageChange = async () => {
   await getPermissionList()
 }
 const addAllRoles = () => {
-  data.allRoles.filter(x => !data.roles.includes(x.key)).forEach(x => {
-    data.roles.push(x.key)
+  data.allRoles.filter(x => !data.roleIds.includes(x.key)).forEach(x => {
+    data.roleIds.push(x.key)
   })
 
 }
