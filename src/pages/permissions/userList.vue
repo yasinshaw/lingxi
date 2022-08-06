@@ -7,8 +7,15 @@
     </div>
     <el-table :data="data.tableData.content" v-if="data.tableData" style="width: 100%">
       <el-table-column prop="id" label="Id" width="180"/>
+      <el-table-column prop="nickName" label="昵称">
+        <template #default="scope">
+          <div class="flex justify-start items-center">
+            <el-avatar :src="scope.row.avatar" size="small"/>
+            <div class="ml-2">{{ scope.row.nickName }}</div>
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="username" label="用户名"/>
-      <el-table-column prop="nickName" label="昵称"/>
       <el-table-column min-width="320">
         <template #default="scope">
           <div class="flex justify-end">
@@ -66,16 +73,21 @@
   <el-dialog
       v-model="data.editUserDialog"
       width="30%"
-      title="编辑用户"
+      :title="data.isAddUser ? '添加用户' : '编辑用户'"
   >
 
     <el-form :model="data.currentUser" ref="vForm" :rules="rules" label-position="left" label-width="80px"
              size="default" @submit.prevent>
+      <el-form-item>
+        <div class="flex justify-center w-full">
+          <el-avatar :src="data.currentUser.avatar" size="large"/>
+        </div>
+      </el-form-item>
       <el-form-item label="id" prop="id" class="required" v-show="!data.isAddUser">
         <el-input v-model="data.currentUser.id" disabled/>
       </el-form-item>
       <el-form-item label="头像地址" prop="avatar" class="required">
-        <el-input v-model="data.currentUser.avatar" :minlength="2" :maxlength="20" :disabled="!data.isAddUser"/>
+        <el-input v-model="data.currentUser.avatar" :minlength="2" :maxlength="20" disabled/>
       </el-form-item>
       <el-form-item label="用户名" prop="username" class="required">
         <el-input v-model="data.currentUser.username" :disabled="!data.isAddUser"

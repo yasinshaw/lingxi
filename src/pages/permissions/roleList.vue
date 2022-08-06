@@ -95,7 +95,7 @@
   <el-dialog
       v-model="data.editRoleDialog"
       width="30%"
-      title="编辑角色"
+      :title="data.isAddRole ? '添加角色' : '编辑角色'"
   >
 
     <el-form :model="data.currentRole" ref="vForm" :rules="rules" label-position="left" label-width="80px"
