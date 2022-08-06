@@ -37,9 +37,14 @@
         filter-placeholder="请选择该权限关联的角色"
         :data="data.allRoles"
     >
+      <template #left-footer>
+        <div class="flex justify-end p-2">
+          <el-button class="transfer-footer" type="primary" @click="addAllRoles">全部关联</el-button>
+        </div>
+      </template>
       <template #right-footer>
         <div class="flex justify-end p-2">
-          <el-button class="transfer-footer" size="small" type="primary" @click="save">保存</el-button>
+          <el-button class="transfer-footer" type="primary" @click="save">保存</el-button>
         </div>
       </template>
     </el-transfer>
@@ -50,7 +55,7 @@
 import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {api} from "@/request";
-import {PagePermissionInfoResponse, PermissionInfoResponse, RoleInfoResponse} from "@/request/generator";
+import {PermissionInfoResponse} from "@/request/generator";
 import {ElMessage} from "element-plus";
 
 /**
@@ -128,8 +133,14 @@ const save = async () => {
   })
   ElMessage.success('保存成功')
 }
-const handlePageChange = async() => {
+const handlePageChange = async () => {
   await getPermissionList()
+}
+const addAllRoles = () => {
+  data.allRoles.filter(x => !(x.key in data.roles)).forEach(x => {
+    data.roles.push(x.key)
+  })
+
 }
 
 defineExpose({
