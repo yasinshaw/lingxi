@@ -42,7 +42,7 @@
   </div>
   <el-drawer
       v-model="data.permissionDrawer"
-      size="40%"
+      size="80%"
       title="关联权限"
   >
     <el-transfer
@@ -50,20 +50,14 @@
         filterable
         :filter-method="filterItem"
         :titles="['全部权限', '已关联权限']"
-        filter-placeholder="请选择该角色关联的权限"
+        filter-placeholder="输入关键字过滤"
         :data="data.allPermissions"
+        class="role-permission-transfer"
     >
-      <template #left-footer>
-        <div class="flex justify-end p-2">
-          <el-button class="transfer-footer" type="primary" @click="addAllPermissions">全部关联</el-button>
-        </div>
-      </template>
-      <template #right-footer>
-        <div class="flex justify-end p-2">
-          <el-button class="transfer-footer" type="primary" @click="savePermissions">保存</el-button>
-        </div>
-      </template>
     </el-transfer>
+    <div class="flex justify-center m-5">
+      <el-button class="transfer-footer" type="primary" @click="savePermissions">保存</el-button>
+    </div>
   </el-drawer>
 
   <el-drawer
@@ -75,21 +69,14 @@
         v-model="data.userIds"
         filterable
         :filter-method="filterItem"
-        :titles="['全部权限', '已关联权限']"
-        filter-placeholder="请选择该角色关联的权限"
+        :titles="['全部用户', '已关联用户']"
+        filter-placeholder="输入关键字过滤"
         :data="data.allUsers"
     >
-      <template #left-footer>
-        <div class="flex justify-end p-2">
-          <el-button class="transfer-footer" type="primary" @click="addAllUsers">全部关联</el-button>
-        </div>
-      </template>
-      <template #right-footer>
-        <div class="flex justify-end p-2">
-          <el-button class="transfer-footer" type="primary" @click="saveUsers">保存</el-button>
-        </div>
-      </template>
     </el-transfer>
+    <div class="flex justify-center p-2">
+      <el-button class="transfer-footer" type="primary" @click="saveUsers">保存</el-button>
+    </div>
   </el-drawer>
 
   <el-dialog
@@ -240,7 +227,7 @@ const deleteRole = async (role: RoleInfoResponse) => {
         type: 'warning',
       }
   )
-      .then( async () => {
+      .then(async () => {
         await api.AuthWriteControllerApi.deleteRole(role.id!)
         ElMessage({
           type: 'success',
@@ -272,11 +259,7 @@ const filterItem = (query: string, item: Option) => {
 const handlePageChange = async () => {
   await getRoleList()
 }
-const addAllPermissions = () => {
-  data.allPermissions.filter(x => !data.permissionIds.includes(x.key)).forEach(x => {
-    data.permissionIds.push(x.key)
-  })
-}
+
 const savePermissions = async () => {
   await api.AuthWriteControllerApi.updateRolePermissionRelation(undefined, {
     roleId: data.currentRole.id!,
@@ -286,11 +269,6 @@ const savePermissions = async () => {
   data.permissionDrawer = false
 }
 
-const addAllUsers = () => {
-  data.allUsers.filter(x => !data.userIds.includes(x.key)).forEach(x => {
-    data.userIds.push(x.key)
-  })
-}
 const saveUsers = async () => {
   await api.AuthWriteControllerApi.updateRoleUserRelation(undefined, {
     roleId: data.currentRole.id!,
@@ -330,5 +308,20 @@ defineExpose({
 })
 
 </script>
+<style lang="less">
+.role-permission-transfer {
+  .el-transfer-panel {
+    width: 600px;
+  }
+}
+.el-transfer-panel__body {
+  height: 70vh;
+}
+.el-transfer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
 <style scoped lang='less'>
 </style>

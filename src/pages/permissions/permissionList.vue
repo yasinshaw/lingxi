@@ -34,20 +34,14 @@
         filterable
         :filter-method="filterRole"
         :titles="['全部角色', '已关联角色']"
-        filter-placeholder="请选择该权限关联的角色"
+        filter-placeholder="输入关键字过滤"
         :data="data.allRoles"
     >
-      <template #left-footer>
-        <div class="flex justify-end p-2">
-          <el-button class="transfer-footer" type="primary" @click="addAllRoles">全部关联</el-button>
-        </div>
-      </template>
-      <template #right-footer>
-        <div class="flex justify-end p-2">
-          <el-button class="transfer-footer" type="primary" @click="save">保存</el-button>
-        </div>
-      </template>
+
     </el-transfer>
+    <div class="flex justify-center m-5">
+      <el-button class="transfer-footer" type="primary" @click="save">保存</el-button>
+    </div>
   </el-drawer>
 </template>
 
@@ -136,12 +130,6 @@ const save = async () => {
 }
 const handlePageChange = async () => {
   await getPermissionList()
-}
-const addAllRoles = () => {
-  data.allRoles.filter(x => !data.roleIds.includes(x.key)).forEach(x => {
-    data.roleIds.push(x.key)
-  })
-
 }
 
 defineExpose({
