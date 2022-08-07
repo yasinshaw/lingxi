@@ -6,7 +6,7 @@ https://www.vform666.com
 <template>
   <el-row class="my-5">
     <el-col :span="6" :offset="9" class="grid-cell">
-      <el-form :model="changePwdForm" ref="vChangePwdForm" :rules="rules" label-position="top" label-width="80px"
+      <el-form :model="changePwdForm" ref="vChangePwdForm" :rules="rules" label-position="right" label-width="80px"
                size="default" @submit.prevent>
         <div class="flex justify-center">
           <el-form-item>
@@ -16,6 +16,11 @@ https://www.vform666.com
         </div>
         <el-form-item label="用户昵称" prop="nickName" class="required">
           <el-input v-model="changePwdForm.nickName" type="text" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="用户角色">
+          <div class="flex justify-center my-2">
+            <el-tag v-for="v in roles" :key="v" class="mr-2">{{v}}</el-tag>
+          </div>
         </el-form-item>
         <div class="static-content-item flex justify-center">
           <el-button type="primary" @click="submitForm">提交</el-button>
@@ -46,6 +51,7 @@ export default defineComponent({
   setup() {
     const currentUser = userUserStore.currentUser;
     const state = reactive({
+      roles: currentUser.roles?.map(x => x.name),
       changePwdForm: {
         avatarInput: currentUser.avatar,
         nickName: currentUser.nickName,
@@ -78,7 +84,6 @@ export default defineComponent({
       instance.ctx.$refs['vChangePwdForm'].resetFields()
     }
     const imageChanged = (e) => {
-      console.log(e)
       state.changePwdForm.avatarInput = e
     }
     return {

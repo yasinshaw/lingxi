@@ -85,7 +85,7 @@
       :title="data.isAddRole ? '添加角色' : '编辑角色'"
   >
 
-    <el-form :model="data.currentRole" ref="vForm" :rules="rules" label-position="left" label-width="80px"
+    <el-form :model="data.currentRole" ref="vForm" :rules="rules" label-position="right" label-width="80px"
              size="default" @submit.prevent>
       <el-form-item label="id" prop="id" class="required" v-show="!data.isAddRole">
         <el-input v-model="data.currentRole.id" disabled/>

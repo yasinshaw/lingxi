@@ -69,7 +69,7 @@
       :title="data.isAddUser ? '添加用户' : '编辑用户'"
   >
 
-    <el-form :model="data.currentUser" ref="vForm" :rules="rules" label-position="left" label-width="80px"
+    <el-form :model="data.currentUser" ref="vForm" :rules="rules" label-position="right" label-width="80px"
              size="default" @submit.prevent>
       <el-form-item>
         <div class="flex justify-center w-full">
