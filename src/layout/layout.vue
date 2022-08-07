@@ -134,7 +134,7 @@ function closeTabOthers() {
 const {currentUser} = storeToRefs(userUserStore)
 
 function logout() {
-  userUserStore.setUserInfo(null)
+  userUserStore.setUserInfo({})
   userUserStore.setAuthorization('');
   router.push('/login')
 }

@@ -149,8 +149,14 @@ const updateApiPermissions = async () => {
 const updateMenuPermissions = async () => {
   const routePaths = new Array<string>()
   dynamicRoute.forEach(v => {
+    if (v.meta!.hideSideBar) {
+      return
+    }
     if (v.children) {
       v.children.forEach(v2 => {
+        if (v2.meta!.hideSideBar) {
+          return
+        }
         routePaths.push(v2.meta!.configFullPath as string)
       })
     } else {

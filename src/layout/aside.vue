@@ -13,10 +13,10 @@
         text-color="#fff"
         router
     >
-      <template v-for="sideBar in sideBars">
+      <template v-for="sideBar in data.sideBars">
         <el-sub-menu
             :index="sideBar.path"
-            v-if="sideBar.children?.length && sideBar.children?.length > 1 && !sideBar.meta?.hideSideBar"
+            v-if="sideBar.children?.length && (sideBar.children?.length > 1 || sideBar.meta?.showParent)"
         >
           <template #title>
             <component :is="sideBar.meta?.icon" v-if="sideBar.meta?.icon" class="el-icon"></component>
@@ -25,14 +25,13 @@
           <template v-for="item in sideBar.children">
             <el-menu-item
                 :index="item.meta?.configFullPath"
-                v-if="!item.meta?.hideSideBar"
             >{{ item.meta?.label }}
             </el-menu-item>
           </template>
         </el-sub-menu>
         <el-menu-item
             :index="sideBar.children[0].meta?.configFullPath"
-            v-if="sideBar.children?.length === 1 && !sideBar.meta?.hideSideBar"
+            v-if="sideBar.children?.length === 1 && !sideBar.meta?.showParent"
         >
           <component :is="sideBar.children[0].meta?.icon" v-if="sideBar.children[0].meta?.icon" class="el-icon"></component>
           <span>{{ sideBar.children[0].meta?.label }}</span>
@@ -44,15 +43,13 @@
 
 <script setup lang="ts">
 import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
-import {
-  Menu as IconMenu,
-} from '@element-plus/icons-vue'
+import {RouteRecordRaw, useRoute, useRouter} from 'vue-router';
 import MyRoute from '@/routes/routes'
 import {useActiveRouterStore} from '@/store/modules/activeRouter';
 import {storeToRefs} from 'pinia';
+import {userUserStore} from "@/store/modules/user";
+import {deepClone} from "@/utils/clone";
 
-const sideBars = MyRoute
 /**
  * 路由对象
  */
@@ -65,12 +62,29 @@ const router = useRouter();
 /**
  * 数据部分
  */
-const data = reactive({})
+const data = reactive({
+  sideBars: new Array<RouteRecordRaw>()
+})
 onBeforeMount(() => {
   //console.log('2.组件挂载页面之前执行----onBeforeMount')
 })
+
 onMounted(() => {
-  //console.log('3.-组件挂载到页面之后执行-------onMounted')
+  // console.log('3.-组件挂载到页面之后执行-------onMounted')
+  const menus = userUserStore.currentUser!.permissions!.filter(v => v.type! === 'MENU').map(v => v.value)
+  const sideBars = deepClone(MyRoute)
+  console.log(menus)
+  sideBars.forEach(v => {
+    if (v.children) {
+      if (v.children.length > 1) {
+        v.meta!.showParent = true
+      }
+      v.children = v.children.filter(v2 => menus.includes(v2.meta!.configFullPath as string) && !v2.meta!.hideSideBar)
+    }
+    return
+  })
+  data.sideBars = sideBars.filter(v => !v.meta!.hideSideBar)
+  console.log(data.sideBars)
 })
 watchEffect(() => {
 })

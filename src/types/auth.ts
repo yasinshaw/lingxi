@@ -11,7 +11,7 @@ export interface Auth {
 
 export interface Permission {
     id?:    number;
-    type?:  string[];
+    type?:  string;
     value?: string;
 }
 

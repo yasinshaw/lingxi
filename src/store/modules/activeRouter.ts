@@ -2,7 +2,7 @@ import {defineStore} from 'pinia'
 import {store} from '..'
 import {RouteLocationNormalized} from 'vue-router'
 
-class EditableTab {
+export class EditableTab {
     constructor(public path: string, public label: string, public componentName: string) {
     }
 }
