@@ -73,18 +73,22 @@ onMounted(() => {
   // console.log('3.-组件挂载到页面之后执行-------onMounted')
   const menus = userUserStore.currentUser!.permissions!.filter(v => v.type! === 'MENU').map(v => v.value)
   const sideBars = deepClone(MyRoute)
-  console.log(menus)
   sideBars.forEach(v => {
     if (v.children) {
+      v.children = v.children.filter(v2 => !v2.meta!.hideSideBar)
+      // 超管可以看所有
+      if (userUserStore.currentUser.roles?.find(role => role.code == 'SUPER_ADMIN')) {
+        return;
+      }
+
       if (v.children.length > 1) {
         v.meta!.showParent = true
       }
-      v.children = v.children.filter(v2 => menus.includes(v2.meta!.configFullPath as string) && !v2.meta!.hideSideBar)
+      v.children = v.children.filter(v2 => menus.includes(v2.meta!.configFullPath as string));
     }
     return
   })
   data.sideBars = sideBars.filter(v => !v.meta!.hideSideBar)
-  console.log(data.sideBars)
 })
 watchEffect(() => {
 })

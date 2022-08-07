@@ -21,7 +21,7 @@
             <el-button type="primary" @click="editRole(scope.row)" link>
               编辑角色
             </el-button>
-            <el-button type="danger" @click="deleteRole(scope.row)" link>
+            <el-button type="danger" @click="deleteRole(scope.row)" link :disabled="scope.row.code === 'SUPER_ADMIN'">
               删除角色
             </el-button>
           </div>
