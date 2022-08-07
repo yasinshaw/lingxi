@@ -169,7 +169,7 @@ const getAllPermissions = async () => {
   data.allPermissions = allPermissions!.map(x => {
     return {
       key: x.id!,
-      label: x.value!,
+      label: x.type! + ' ' + x.value!,
       disabled: false
     }
   })

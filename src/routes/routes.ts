@@ -2,7 +2,7 @@ import Layout from '../layout/layout.vue'
 import {RouteRecordRaw} from 'vue-router'
 
 
-const dynamicRoute: RouteRecordRaw[] = [
+export const dynamicRoute: RouteRecordRaw[] = [
     {
         path: '/home',
         component: Layout,
@@ -84,7 +84,39 @@ const dynamicRoute: RouteRecordRaw[] = [
                 },
             }
         ]
-    }
+    },
+    {
+        path: '/permissions',
+        meta: {
+            icon: 'Lock',
+            label: '权限中心',
+        },
+        component: Layout,
+        redirect: '/permissions/permissionList',
+        children: [
+            {
+                path: 'userList',
+                component: () => import('../pages/permissions/userList.vue'),
+                meta: {
+                    label: '用户管理',
+                }
+            },
+            {
+                path: 'roleList',
+                component: () => import('../pages/permissions/roleList.vue'),
+                meta: {
+                    label: '角色管理',
+                }
+            },
+            {
+                path: 'permissionList',
+                component: () => import('../pages/permissions/permissionList.vue'),
+                meta: {
+                    label: '权限管理'
+                }
+            },
+        ]
+    },
 ]
 
 let routes: RouteRecordRaw[] = [
@@ -139,38 +171,6 @@ let routes: RouteRecordRaw[] = [
                 component: () => import('../pages/currentUser/changePassword.vue'),
                 meta: {
                     label: '修改密码',
-                }
-            },
-        ]
-    },
-    {
-        path: '/permissions',
-        meta: {
-            icon: 'Lock',
-            label: '权限中心',
-        },
-        component: Layout,
-        redirect: '/permissions/permissionList',
-        children: [
-            {
-                path: 'permissionList',
-                component: () => import('../pages/permissions/permissionList.vue'),
-                meta: {
-                    label: '权限管理'
-                }
-            },
-            {
-                path: 'roleList',
-                component: () => import('../pages/permissions/roleList.vue'),
-                meta: {
-                    label: '角色管理',
-                }
-            },
-            {
-                path: 'userList',
-                component: () => import('../pages/permissions/userList.vue'),
-                meta: {
-                    label: '用户管理',
                 }
             },
         ]

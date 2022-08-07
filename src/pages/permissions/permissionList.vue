@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div class="flex justify-end">
+      <el-button type="primary" @click="updateApiPermissions">
+        更新接口权限
+      </el-button>
+      <el-button type="primary" @click="updateMenuPermissions">
+        更新菜单权限
+      </el-button>
+    </div>
     <el-table :data="data.tableData.content" v-if="data.tableData" style="width: 100%">
       <el-table-column prop="id" label="Id" width="180"/>
       <el-table-column prop="type" label="类型" width="180"/>
@@ -51,6 +59,7 @@ import {useRoute, useRouter} from 'vue-router';
 import {api} from "@/request";
 import {PermissionInfoResponse} from "@/request/generator";
 import {ElMessage} from "element-plus";
+import {dynamicRoute} from "@/routes/routes";
 
 /**
  * 路由对象
@@ -129,6 +138,26 @@ const save = async () => {
   data.drawer = false
 }
 const handlePageChange = async () => {
+  await getPermissionList()
+}
+
+const updateApiPermissions = async () => {
+  await api.AuthWriteControllerApi.updateApiPermissions(undefined)
+  await getPermissionList()
+}
+
+const updateMenuPermissions = async () => {
+  const routePaths = new Array<string>()
+  dynamicRoute.forEach(v => {
+    if (v.children) {
+      v.children.forEach(v2 => {
+        routePaths.push(v2.meta!.configFullPath as string)
+      })
+    } else {
+      routePaths.push(v.meta!.configFullPath as string)
+    }
+  })
+  await api.AuthWriteControllerApi.updateManuPermissions(undefined, routePaths)
   await getPermissionList()
 }
 
