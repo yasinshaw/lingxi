@@ -98,7 +98,7 @@
                   :minlength="2" :maxlength="20"></el-input>
       </el-form-item>
       <div class="flex justify-center">
-        <el-button type="primary" @click="submitForm(vForm)">提交</el-button>
+        <el-button type="primary" @click="submitForm">提交</el-button>
       </div>
     </el-form>
   </el-dialog>
@@ -108,8 +108,8 @@
 import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed, getCurrentInstance} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {api} from "@/request";
-import {RoleInfoResponse} from "@/request/generator";
-import {ElMessage, ElMessageBox} from "element-plus";
+import {PageRoleInfoResponse, RoleInfoResponse} from "@/request/generator";
+import {DataItem, ElMessage, ElMessageBox} from "element-plus";
 
 /**
  * 路由对象
@@ -131,7 +131,7 @@ interface Option {
 }
 
 const data = reactive({
-  tableData: {},
+  tableData: {} as PageRoleInfoResponse,
   currentRole: {} as RoleInfoResponse,
   permissionDrawer: false,
   userDrawer: false,
@@ -253,7 +253,7 @@ const addRole = async () => {
   data.editRoleDialog = true
 }
 
-const filterItem = (query: string, item: Option) => {
+const filterItem = (query: string, item: DataItem) => {
   return item.label!.toLowerCase().includes(query.toLowerCase())
 }
 const handlePageChange = async () => {

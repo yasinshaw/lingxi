@@ -95,7 +95,7 @@
                   :minlength="2" :maxlength="20"></el-input>
       </el-form-item>
       <div class="flex justify-center">
-        <el-button type="primary" @click="submitForm(vForm)">提交</el-button>
+        <el-button type="primary" @click="submitForm">提交</el-button>
       </div>
     </el-form>
   </el-dialog>
@@ -105,8 +105,8 @@
 import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed, getCurrentInstance} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {api} from "@/request";
-import {RoleInfoResponse, UserInfoResponse} from "@/request/generator";
-import {ElMessage, ElMessageBox} from "element-plus";
+import {PageUserListResponse, RoleInfoResponse, UserInfoResponse} from "@/request/generator";
+import {DataItem, ElMessage, ElMessageBox} from "element-plus";
 import {extend} from "dayjs";
 import {DEFAULT_AVATAR} from "@/types/constants";
 
@@ -134,7 +134,7 @@ interface EditUserInfo extends UserInfoResponse {
 }
 
 const data = reactive({
-  tableData: {},
+  tableData: {} as PageUserListResponse,
   currentUser: {} as EditUserInfo,
   roleDrawer: false,
   editUserDialog: false,
@@ -203,6 +203,8 @@ const editRoles = async (user: EditUserInfo) => {
 
 const editUser = async (user: EditUserInfo) => {
   data.currentUser = user
+  // 编辑的时候有必填校验，先保留校验，这里随便填一个，更新用户的时候不传到后端
+  data.currentUser.password = 'xxx'
   data.isAddUser = false
   data.editUserDialog = true
 }
@@ -245,7 +247,7 @@ const addUser = async () => {
   data.editUserDialog = true
 }
 
-const filterItem = (query: string, item: Option) => {
+const filterItem = (query: string, item: DataItem) => {
   return item.label!.toLowerCase().includes(query.toLowerCase())
 }
 const handlePageChange = async () => {
@@ -266,6 +268,7 @@ const instance = getCurrentInstance()
 const submitForm = () => {
 // @ts-ignore
   instance!.ctx.$refs['vForm'].validate(async valid => {
+    console.log(valid)
     if (!valid) return
     if (data.isAddUser) {
       await api.AuthWriteControllerApi.createUser(undefined, {

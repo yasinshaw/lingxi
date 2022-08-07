@@ -2,7 +2,18 @@ import Layout from '../layout/layout.vue'
 import {RouteRecordRaw} from 'vue-router'
 
 
-export const dynamicRoute: RouteRecordRaw[] = [
+export type MyRouteRecordRaw = RouteRecordRaw & {
+    meta: {
+        icon?: string
+        label?: string
+        configFullPath?: string
+        hideSideBar?: boolean
+        hasNoTabs?: boolean
+    }
+    children?: MyRouteRecordRaw[]
+}
+
+export const dynamicRoute: MyRouteRecordRaw[] = [
     {
         path: '/home',
         component: Layout,
@@ -119,7 +130,7 @@ export const dynamicRoute: RouteRecordRaw[] = [
     },
 ]
 
-let routes: RouteRecordRaw[] = [
+let routes: MyRouteRecordRaw[] = [
     {
         path: '/',
         redirect: '/home/index',
@@ -180,7 +191,7 @@ let routes: RouteRecordRaw[] = [
 
 routes = dynamicRoute.concat(routes)
 
-function addFullPath(parentPath: string, routes: RouteRecordRaw[]) {
+function addFullPath(parentPath: string, routes: MyRouteRecordRaw[]) {
     routes.forEach(v => {
         if (v.path.startsWith('/')) {
             v.meta!.configFullPath = v.path

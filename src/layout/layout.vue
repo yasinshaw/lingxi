@@ -68,6 +68,7 @@ import Aside from './aside.vue';
 import {useActiveRouterStore} from '@/store/modules/activeRouter';
 import {userUserStore} from "@/store/modules/user";
 import {storeToRefs} from 'pinia';
+import {TabPanelName} from "element-plus";
 
 /**
  * 路由对象
@@ -99,11 +100,11 @@ defineExpose({
 const {activeTab, routerTabs} = storeToRefs(useActiveRouterStore)
 const keepAlivePages = computed(() => routerTabs.value.map(v => v.componentName))
 
-function changeTab(name: string) {
-  router.push(name)
+function changeTab(name: TabPanelName) :any {
+  router.push(name as string)
 }
 
-function remove(name: string) {
+function remove(name: TabPanelName) :any {
   const pages = routerTabs.value
   let index = pages.findIndex(v => v.path == name)
   // 如果删除的当前路由，优先找下一个，如果下一个没有了，找上一个，如果上一个没有了，回到首页
@@ -116,7 +117,7 @@ function remove(name: string) {
       router.push('/home')
     }
   }
-  useActiveRouterStore.removeRouterTabs(name)
+  useActiveRouterStore.removeRouterTabs(name as string)
 }
 
 function closeTabLeft() {

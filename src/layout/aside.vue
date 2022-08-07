@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed} from 'vue';
 import {RouteRecordRaw, useRoute, useRouter} from 'vue-router';
-import MyRoute from '@/routes/routes'
+import MyRoute, {MyRouteRecordRaw} from '@/routes/routes'
 import {useActiveRouterStore} from '@/store/modules/activeRouter';
 import {storeToRefs} from 'pinia';
 import {userUserStore} from "@/store/modules/user";
@@ -63,7 +63,7 @@ const router = useRouter();
  * 数据部分
  */
 const data = reactive({
-  sideBars: new Array<RouteRecordRaw>()
+  sideBars: new Array<MyRouteRecordRaw>()
 })
 onBeforeMount(() => {
   //console.log('2.组件挂载页面之前执行----onBeforeMount')
@@ -75,7 +75,7 @@ onMounted(() => {
   const sideBars = deepClone(MyRoute)
   sideBars.forEach(v => {
     if (v.children) {
-      v.children = v.children.filter(v2 => !v2.meta!.hideSideBar)
+      v.children = v.children.filter(v2 => !v2.meta!.hideSideBar) as RouteRecordRaw[] & MyRouteRecordRaw[]
       // 超管可以看所有
       if (userUserStore.currentUser.roles?.find(role => role.code == 'SUPER_ADMIN')) {
         return;
@@ -84,7 +84,7 @@ onMounted(() => {
       if (v.children.length > 1) {
         v.meta!.showParent = true
       }
-      v.children = v.children.filter(v2 => menus.includes(v2.meta!.configFullPath as string));
+      v.children = v.children.filter(v2 => menus.includes(v2.meta!.configFullPath as string)) as RouteRecordRaw[] & MyRouteRecordRaw[];
     }
     return
   })

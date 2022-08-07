@@ -57,8 +57,8 @@
 import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {api} from "@/request";
-import {PermissionInfoResponse} from "@/request/generator";
-import {ElMessage} from "element-plus";
+import {PagePermissionInfoResponse, PermissionInfoResponse} from "@/request/generator";
+import {DataItem, ElMessage} from "element-plus";
 import {dynamicRoute} from "@/routes/routes";
 
 /**
@@ -81,7 +81,7 @@ interface Option {
 }
 
 const data = reactive({
-  tableData: {},
+  tableData: {} as PagePermissionInfoResponse,
   currentPermission: {} as PermissionInfoResponse,
   drawer: false,
   roleIds: new Array<number>(),
@@ -126,7 +126,7 @@ const editRoles = async (permission: PermissionInfoResponse) => {
   data.roleIds = roles!.map(x => x.id!)
   data.drawer = true
 }
-const filterRole = (query: string, item: Option) => {
+const filterRole = (query: string, item: DataItem) => {
   return item.label!.toLowerCase().includes(query.toLowerCase())
 }
 const save = async () => {
