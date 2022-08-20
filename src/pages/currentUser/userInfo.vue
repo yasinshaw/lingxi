@@ -10,6 +10,11 @@ https://www.vform666.com
                size="default" @submit.prevent>
         <div class="flex justify-center">
           <el-form-item>
+            <el-avatar :size="80" :src="changePwdForm.avatarInput"/>
+          </el-form-item>
+        </div>
+        <div class="flex justify-center">
+          <el-form-item>
             <ImageUpload :imageUrl="changePwdForm.avatarInput" @imageChanged="imageChanged">
             </ImageUpload>
           </el-form-item>
@@ -19,7 +24,7 @@ https://www.vform666.com
         </el-form-item>
         <el-form-item label="用户角色">
           <div class="flex justify-center my-2">
-            <el-tag v-for="v in roles" :key="v" class="mr-2">{{v}}</el-tag>
+            <el-tag v-for="v in roles" :key="v" class="mr-2">{{ v }}</el-tag>
           </div>
         </el-form-item>
         <div class="static-content-item flex justify-center">

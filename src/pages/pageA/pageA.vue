@@ -1,6 +1,11 @@
 <template>
-  <div >
-      <h1>aaa</h1>
+  <div>
+    <h1>aaa</h1>
+    <el-row>
+      <el-col :span="8" :offset="8">
+        <image-upload></image-upload>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -15,20 +20,22 @@ import {
   computed,
   defineComponent,
 } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import {useRoute, useRouter} from 'vue-router';
+import ImageCropper from "@/components/imageCropper.vue";
+import ImageUpload from "@/components/imageUpload.vue";
 
 /**
-* 路由对象
-*/
+ * 路由对象
+ */
 const route = useRoute();
 /**
-* 路由实例
-*/
+ * 路由实例
+ */
 const router = useRouter();
 //console.log('1-开始创建组件-setup')
 /**
-* 数据部分
-*/
+ * 数据部分
+ */
 const data = reactive({})
 onBeforeMount(() => {
   //console.log('2.组件挂载页面之前执行----onBeforeMount')
@@ -36,7 +43,7 @@ onBeforeMount(() => {
 onMounted(() => {
   //console.log('3.-组件挂载到页面之后执行-------onMounted')
 })
-watchEffect(()=>{
+watchEffect(() => {
 })
 // 使用toRefs解构
 // let { } = { ...toRefs(data) } 
