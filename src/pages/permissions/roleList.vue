@@ -159,13 +159,13 @@ onBeforeMount(() => {
   //console.log('2.组件挂载页面之前执行----onBeforeMount')
 })
 const getRoleList = async () => {
-  const tableData = (await api.AuthReadControllerApi.getRoleList(data.currentPage - 1, data.pageSize)).data;
+  const tableData = (await api.Admin.getRoleList(data.currentPage - 1, data.pageSize)).data;
   data.tableData = tableData
   data.totalNumber = tableData.totalElements!
 }
 
 const getAllPermissions = async () => {
-  const allPermissions = (await api.AuthReadControllerApi.getPermissionList(0, 999)).data.content
+  const allPermissions = (await api.Admin.getPermissionList(0, 999)).data.content
   data.allPermissions = allPermissions!.map(x => {
     return {
       key: x.id!,
@@ -176,7 +176,7 @@ const getAllPermissions = async () => {
 }
 
 const getAllUsers = async () => {
-  const allUsers = (await api.AuthReadControllerApi.getUserList(0, 999)).data.content
+  const allUsers = (await api.Admin.getUserList(0, 999)).data.content
   data.allUsers = allUsers!.map(x => {
     return {
       key: x.id!,
@@ -198,7 +198,7 @@ watchEffect(() => {
 const editPermissions = async (role: RoleInfoResponse) => {
   await getAllPermissions()
   data.currentRole = role
-  const permissions = (await api.AuthReadControllerApi.getPermissionListByRoleId(role.id!, 0, 999)).data.content
+  const permissions = (await api.Admin.getPermissionListByRoleId(role.id!, 0, 999)).data.content
   data.permissionIds = permissions!.map(x => x.id!)
   data.permissionDrawer = true
 }
@@ -206,7 +206,7 @@ const editPermissions = async (role: RoleInfoResponse) => {
 const editUsers = async (role: RoleInfoResponse) => {
   await getAllUsers()
   data.currentRole = role
-  const users = (await api.AuthReadControllerApi.getUserListByRoleId(role.id!, 0, 999)).data.content
+  const users = (await api.Admin.getUserListByRoleId(role.id!, 0, 999)).data.content
   data.userIds = users!.map(x => x.id!)
   data.userDrawer = true
 }
@@ -228,7 +228,7 @@ const deleteRole = async (role: RoleInfoResponse) => {
       }
   )
       .then(async () => {
-        await api.AuthWriteControllerApi.deleteRole(role.id!)
+        await api.Admin.deleteRole(role.id!)
         ElMessage({
           type: 'success',
           message: '删除角色成功',
@@ -261,7 +261,7 @@ const handlePageChange = async () => {
 }
 
 const savePermissions = async () => {
-  await api.AuthWriteControllerApi.updateRolePermissionRelation(undefined, {
+  await api.Admin.updateRolePermissionRelation( {
     roleId: data.currentRole.id!,
     permissionIds: data.permissionIds,
   })
@@ -270,7 +270,7 @@ const savePermissions = async () => {
 }
 
 const saveUsers = async () => {
-  await api.AuthWriteControllerApi.updateRoleUserRelation(undefined, {
+  await api.Admin.updateRoleUserRelation( {
     roleId: data.currentRole.id!,
     userIds: data.userIds,
   })
@@ -285,12 +285,12 @@ const submitForm = () => {
   instance!.ctx.$refs['vForm'].validate(async valid => {
     if (!valid) return
     if (data.isAddRole) {
-      await api.AuthWriteControllerApi.createRole(undefined, {
+      await api.Admin.createRole( {
         code: data.currentRole.code!,
         name: data.currentRole.name!,
       })
     } else {
-      await api.AuthWriteControllerApi.updateRole(undefined, {
+      await api.Admin.updateRole( {
             id: data.currentRole.id!,
             code: data.currentRole.code!,
             name: data.currentRole.name!,

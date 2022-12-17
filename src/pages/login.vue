@@ -96,12 +96,12 @@ async function login() {
     return
   }
   // await loginApi(data.username, data.password);
-  await api.AuthWriteControllerApi.login(undefined, {
+  await api.Admin.login({
     username: data.username,
     password: data.password
   })
   // 测试jwt token链路有效
-  const userInfo = (await api.AuthReadControllerApi.getCurrentUserInfo(undefined)).data;
+  const userInfo = (await api.Admin.getCurrentUserInfo(undefined)).data;
   userUserStore.setUserInfo(userInfo)
   await router.push('/')
 }
