@@ -105,10 +105,10 @@
 import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed, getCurrentInstance} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {api} from "@/request";
-import {PageUserListResponse, RoleInfoResponse, UserInfoResponse} from "@/request/generator";
 import {DataItem, ElMessage, ElMessageBox} from "element-plus";
 import {extend} from "dayjs";
 import {DEFAULT_AVATAR} from "@/types/constants";
+import {PageUserListResponse, UserInfoResponse} from "@/request/generator/data-contracts";
 
 /**
  * 路由对象
@@ -167,13 +167,13 @@ onBeforeMount(() => {
   //console.log('2.组件挂载页面之前执行----onBeforeMount')
 })
 const getUserList = async () => {
-  const tableData = (await api.Admin.getUserList(data.currentPage - 1, data.pageSize)).data;
+  const tableData = (await api.Admin.getUserList({page: data.currentPage - 1, size: data.pageSize})).data;
   data.tableData = tableData
   data.totalNumber = tableData.totalElements!
 }
 
 const getAllRoles = async () => {
-  const roles = (await api.Admin.getRoleList(0, 999)).data.content
+  const roles = (await api.Admin.getRoleList({page: 0, size: 999})).data.content
   data.allRoles = roles!.map(x => {
     return {
       key: x.id!,
@@ -196,7 +196,7 @@ watchEffect(() => {
 const editRoles = async (user: EditUserInfo) => {
   await getAllRoles()
   data.currentUser = user
-  const roles = (await api.Admin.getRoleListByUserId(user.id!, 0, 999)).data.content
+  const roles = (await api.Admin.getRoleListByUserId(user.id!, {page: 0, size: 999})).data.content
   data.roleIds = roles!.map(x => x.id!)
   data.roleDrawer = true
 }

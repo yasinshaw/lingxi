@@ -159,13 +159,16 @@ onBeforeMount(() => {
   //console.log('2.组件挂载页面之前执行----onBeforeMount')
 })
 const getRoleList = async () => {
-  const tableData = (await api.Admin.getRoleList(data.currentPage - 1, data.pageSize)).data;
+  const tableData = (await api.Admin.getRoleList({
+    page: data.currentPage - 1,
+    size: data.pageSize
+  })).data
   data.tableData = tableData
   data.totalNumber = tableData.totalElements!
 }
 
 const getAllPermissions = async () => {
-  const allPermissions = (await api.Admin.getPermissionList(0, 999)).data.content
+  const allPermissions = (await api.Admin.getPermissionList({page: 0, size: 999})).data.content
   data.allPermissions = allPermissions!.map(x => {
     return {
       key: x.id!,
@@ -176,7 +179,7 @@ const getAllPermissions = async () => {
 }
 
 const getAllUsers = async () => {
-  const allUsers = (await api.Admin.getUserList(0, 999)).data.content
+  const allUsers = (await api.Admin.getUserList({pag: 0, size: 999})).data.content
   data.allUsers = allUsers!.map(x => {
     return {
       key: x.id!,
@@ -198,7 +201,7 @@ watchEffect(() => {
 const editPermissions = async (role: RoleInfoResponse) => {
   await getAllPermissions()
   data.currentRole = role
-  const permissions = (await api.Admin.getPermissionListByRoleId(role.id!, 0, 999)).data.content
+  const permissions = (await api.Admin.getPermissionListByRoleId(role.id!, {page: 0, size: 999})).data.content
   data.permissionIds = permissions!.map(x => x.id!)
   data.permissionDrawer = true
 }
@@ -206,7 +209,7 @@ const editPermissions = async (role: RoleInfoResponse) => {
 const editUsers = async (role: RoleInfoResponse) => {
   await getAllUsers()
   data.currentRole = role
-  const users = (await api.Admin.getUserListByRoleId(role.id!, 0, 999)).data.content
+  const users = (await api.Admin.getUserListByRoleId(role.id!, {page: 0, size: 999})).data.content
   data.userIds = users!.map(x => x.id!)
   data.userDrawer = true
 }

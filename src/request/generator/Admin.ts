@@ -366,6 +366,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
   getPermissionList = (
     query: {
       pageable: Pageable;
+      type: "API" | "MENU" | "CUSTOM";
     },
     params: RequestParams = {},
   ) =>

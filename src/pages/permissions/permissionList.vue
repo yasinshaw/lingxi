@@ -1,12 +1,22 @@
 <template>
   <div>
-    <div class="flex justify-end">
-      <el-button type="primary" @click="updateApiPermissions">
-        更新接口权限
-      </el-button>
-      <el-button type="primary" @click="updateMenuPermissions">
-        更新菜单权限
-      </el-button>
+    <div class="flex justify-between">
+      <el-select v-model="data.type" class="m-2" placeholder="Select" @change="handlePageChange">
+        <el-option
+            v-for="item in permissionTypes"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+        />
+      </el-select>
+      <div class="flex justify-end">
+        <el-button type="primary" @click="updateApiPermissions">
+          更新接口权限
+        </el-button>
+        <el-button type="primary" @click="updateMenuPermissions">
+          更新菜单权限
+        </el-button>
+      </div>
     </div>
     <el-table :data="data.tableData.content" v-if="data.tableData" style="width: 100%">
       <el-table-column prop="id" label="Id" width="180"/>
@@ -89,13 +99,18 @@ const data = reactive({
   allRoles: new Array<Option>(),
   currentPage: 1,
   pageSize: 10,
+  type: '',
   totalNumber: 0,
 })
 onBeforeMount(() => {
   //console.log('2.组件挂载页面之前执行----onBeforeMount')
 })
 const getPermissionList = async () => {
-  const tableData = (await api.Admin.getPermissionList(data.currentPage - 1, data.pageSize)).data;
+  const tableData = (await api.Admin.getPermissionList({
+    page: data.currentPage - 1,
+    size: data.pageSize,
+    type: data.type
+  })).data;
   data.tableData = tableData
   data.totalNumber = tableData.totalElements!
 }
@@ -131,7 +146,7 @@ const filterRole = (query: string, item: DataItem) => {
   return item.label!.toLowerCase().includes(query.toLowerCase())
 }
 const save = async () => {
-  await api.Admin.updatePermissionRoleRelation( {
+  await api.Admin.updatePermissionRoleRelation({
     permissionId: data.currentPermission.id!,
     roleIds: data.roleIds,
   })
@@ -167,6 +182,13 @@ const updateMenuPermissions = async () => {
   await api.Admin.updateManuPermissions(routePaths)
   await getPermissionList()
 }
+
+const permissionTypes = [
+  {value: '', label: '全部'},
+  {value: 'API', label: '接口'},
+  {value: 'MENU', label: '菜单'},
+  {value: 'CUSTOM', label: '自定义'},
+]
 
 defineExpose({
   ...toRefs(data),
