@@ -16,7 +16,7 @@ import {
   PageMileStoneResponse,
   UpdateMileStoneRequest,
 } from "./data-contracts";
-import { HttpClient, RequestParams } from "./http-client";
+import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Milestone<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
@@ -26,55 +26,12 @@ export class Milestone<SecurityDataType = unknown> extends HttpClient<SecurityDa
    * @name UpdateMileStone
    * @request POST:/milestone/update
    */
-  updateMileStone = (
-    query: {
-      request: UpdateMileStoneRequest;
-    },
-    params: RequestParams = {},
-  ) =>
+  updateMileStone = (data: UpdateMileStoneRequest, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/milestone/update`,
       method: "POST",
-      query: query,
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags mile-stone-controller
-   * @name QueryByList
-   * @request POST:/milestone/queryByList
-   */
-  queryByList = (
-    query: {
-      pageable: Pageable;
-    },
-    params: RequestParams = {},
-  ) =>
-    this.request<PageMileStoneResponse, any>({
-      path: `/milestone/queryByList`,
-      method: "POST",
-      query: query,
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags mile-stone-controller
-   * @name QueryById
-   * @request POST:/milestone/queryById
-   */
-  queryById = (
-    query: {
-      /** @format int64 */
-      id: number;
-    },
-    params: RequestParams = {},
-  ) =>
-    this.request<MileStoneResponse, any>({
-      path: `/milestone/queryById`,
-      method: "POST",
-      query: query,
+      body: data,
+      type: ContentType.Json,
       ...params,
     });
   /**
@@ -104,15 +61,50 @@ export class Milestone<SecurityDataType = unknown> extends HttpClient<SecurityDa
    * @name CreateMileStone
    * @request POST:/milestone/create
    */
-  createMileStone = (
-    query: {
-      request: CreateMileStoneRequest;
-    },
-    params: RequestParams = {},
-  ) =>
+  createMileStone = (data: CreateMileStoneRequest, params: RequestParams = {}) =>
     this.request<number, any>({
       path: `/milestone/create`,
       method: "POST",
+      body: data,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags mile-stone-controller
+   * @name QueryByList
+   * @request GET:/milestone/queryByList
+   */
+  queryByList = (
+    query: {
+      pageable: Pageable;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<PageMileStoneResponse, any>({
+      path: `/milestone/queryByList`,
+      method: "GET",
+      query: query,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags mile-stone-controller
+   * @name QueryById
+   * @request GET:/milestone/queryById
+   */
+  queryById = (
+    query: {
+      /** @format int64 */
+      id: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<MileStoneResponse, any>({
+      path: `/milestone/queryById`,
+      method: "GET",
       query: query,
       ...params,
     });

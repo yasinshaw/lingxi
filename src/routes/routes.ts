@@ -97,6 +97,22 @@ export const dynamicRoute: MyRouteRecordRaw[] = [
         ]
     },
     {
+        path: '/milestone',
+        redirect: '/milestone/index',
+        meta: {},
+        component: Layout,
+        children: [
+            {
+                path: 'index',
+                component: () => import('../pages/milestone/milestoneList.vue'),
+                meta: {
+                    icon: 'Mug',
+                    label: '里程碑',
+                },
+            }
+        ]
+    },
+    {
         path: '/permissions',
         meta: {
             icon: 'Lock',

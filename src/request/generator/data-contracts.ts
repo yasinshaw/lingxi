@@ -20,68 +20,6 @@ export interface UpdateMileStoneRequest {
   portalPublic?: boolean;
 }
 
-export interface Pageable {
-  /**
-   * @format int32
-   * @min 0
-   */
-  page?: number;
-  /**
-   * @format int32
-   * @min 1
-   */
-  size?: number;
-  sort?: string[];
-}
-
-export interface MileStoneResponse {
-  /** @format int64 */
-  id?: number;
-  title?: string;
-  description?: string;
-  /** @format date-time */
-  time?: string;
-  picUrls?: string;
-  portalPublic?: boolean;
-}
-
-export interface PageMileStoneResponse {
-  /** @format int32 */
-  totalPages?: number;
-  /** @format int64 */
-  totalElements?: number;
-  first?: boolean;
-  last?: boolean;
-  /** @format int32 */
-  size?: number;
-  content?: MileStoneResponse[];
-  /** @format int32 */
-  number?: number;
-  sort?: Sort;
-  pageable?: PageableObject;
-  /** @format int32 */
-  numberOfElements?: number;
-  empty?: boolean;
-}
-
-export interface PageableObject {
-  /** @format int64 */
-  offset?: number;
-  sort?: Sort;
-  /** @format int32 */
-  pageNumber?: number;
-  /** @format int32 */
-  pageSize?: number;
-  paged?: boolean;
-  unpaged?: boolean;
-}
-
-export interface Sort {
-  empty?: boolean;
-  unsorted?: boolean;
-  sorted?: boolean;
-}
-
 export interface CreateMileStoneRequest {
   title: string;
   description: string;
@@ -168,6 +106,68 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface Pageable {
+  /**
+   * @format int32
+   * @min 0
+   */
+  page?: number;
+  /**
+   * @format int32
+   * @min 1
+   */
+  size?: number;
+  sort?: string[];
+}
+
+export interface MileStoneResponse {
+  /** @format int64 */
+  id?: number;
+  title?: string;
+  description?: string;
+  /** @format date-time */
+  time?: string;
+  picUrls?: string;
+  portalPublic?: boolean;
+}
+
+export interface PageMileStoneResponse {
+  /** @format int32 */
+  totalPages?: number;
+  /** @format int64 */
+  totalElements?: number;
+  first?: boolean;
+  last?: boolean;
+  /** @format int32 */
+  size?: number;
+  content?: MileStoneResponse[];
+  /** @format int32 */
+  number?: number;
+  sort?: Sort;
+  /** @format int32 */
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  empty?: boolean;
+}
+
+export interface PageableObject {
+  /** @format int64 */
+  offset?: number;
+  sort?: Sort;
+  paged?: boolean;
+  unpaged?: boolean;
+  /** @format int32 */
+  pageNumber?: number;
+  /** @format int32 */
+  pageSize?: number;
+}
+
+export interface Sort {
+  empty?: boolean;
+  sorted?: boolean;
+  unsorted?: boolean;
+}
+
 export interface PageUserListResponse {
   /** @format int32 */
   totalPages?: number;
@@ -181,9 +181,9 @@ export interface PageUserListResponse {
   /** @format int32 */
   number?: number;
   sort?: Sort;
-  pageable?: PageableObject;
   /** @format int32 */
   numberOfElements?: number;
+  pageable?: PageableObject;
   empty?: boolean;
 }
 
@@ -208,9 +208,9 @@ export interface PageRoleInfoResponse {
   /** @format int32 */
   number?: number;
   sort?: Sort;
-  pageable?: PageableObject;
   /** @format int32 */
   numberOfElements?: number;
+  pageable?: PageableObject;
   empty?: boolean;
 }
 
@@ -234,9 +234,9 @@ export interface PagePermissionInfoResponse {
   /** @format int32 */
   number?: number;
   sort?: Sort;
-  pageable?: PageableObject;
   /** @format int32 */
   numberOfElements?: number;
+  pageable?: PageableObject;
   empty?: boolean;
 }
 
