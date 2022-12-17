@@ -71,7 +71,7 @@ export default defineComponent({
     const submitForm = () => {
       instance.ctx.$refs['vChangePwdForm'].validate(async valid => {
         if (!valid) return
-        await api.AuthWriteControllerApi.updateCurrentUserInfo(undefined,
+        await api.Admin.updateCurrentUserInfo(
             {
               nickName: state.changePwdForm.nickName,
               avatar: state.changePwdForm.avatarInput

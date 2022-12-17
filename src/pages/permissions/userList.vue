@@ -167,13 +167,13 @@ onBeforeMount(() => {
   //console.log('2.组件挂载页面之前执行----onBeforeMount')
 })
 const getUserList = async () => {
-  const tableData = (await api.AuthReadControllerApi.getUserList(data.currentPage - 1, data.pageSize)).data;
+  const tableData = (await api.Admin.getUserList(data.currentPage - 1, data.pageSize)).data;
   data.tableData = tableData
   data.totalNumber = tableData.totalElements!
 }
 
 const getAllRoles = async () => {
-  const roles = (await api.AuthReadControllerApi.getRoleList(0, 999)).data.content
+  const roles = (await api.Admin.getRoleList(0, 999)).data.content
   data.allRoles = roles!.map(x => {
     return {
       key: x.id!,
@@ -196,7 +196,7 @@ watchEffect(() => {
 const editRoles = async (user: EditUserInfo) => {
   await getAllRoles()
   data.currentUser = user
-  const roles = (await api.AuthReadControllerApi.getRoleListByUserId(user.id!, 0, 999)).data.content
+  const roles = (await api.Admin.getRoleListByUserId(user.id!, 0, 999)).data.content
   data.roleIds = roles!.map(x => x.id!)
   data.roleDrawer = true
 }
@@ -220,7 +220,7 @@ const deleteUser = async (user: UserInfoResponse) => {
       }
   )
       .then(async () => {
-        await api.AuthWriteControllerApi.deleteUser(user.id!)
+        await api.Admin.deleteUser(user.id!)
         ElMessage({
           type: 'success',
           message: '删除用户成功',
@@ -255,7 +255,7 @@ const handlePageChange = async () => {
 }
 
 const saveRoles = async () => {
-  await api.AuthWriteControllerApi.updateUserRoleRelation(undefined, {
+  await api.Admin.updateUserRoleRelation( {
     userId: data.currentUser.id!,
     roleIds: data.roleIds,
   })
@@ -271,14 +271,14 @@ const submitForm = () => {
     console.log(valid)
     if (!valid) return
     if (data.isAddUser) {
-      await api.AuthWriteControllerApi.createUser(undefined, {
+      await api.Admin.createUser( {
         avatar: data.currentUser.avatar!,
         username: data.currentUser.username!,
         password: data.currentUser.password!,
         nickName: data.currentUser.nickName!,
       })
     } else {
-      await api.AuthWriteControllerApi.updateUser(undefined, {
+      await api.Admin.updateUser( {
             userId: data.currentUser.id!,
             avatar: data.currentUser.avatar!,
             nickName: data.currentUser.nickName!,

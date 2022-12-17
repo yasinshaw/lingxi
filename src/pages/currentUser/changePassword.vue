@@ -78,7 +78,7 @@ export default defineComponent({
           ElMessage.error('两次输入密码不相等，请重新输入！')
           return
         }
-        await api.AuthWriteControllerApi.changePassword(undefined, {
+        await api.Admin.changePassword( {
               oldPassword: state.changePwdForm.oldPwd,
               newPassword: state.changePwdForm.newPwd
             }

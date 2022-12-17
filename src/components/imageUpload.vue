@@ -48,7 +48,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = async (rawFile) => {
     ElMessage.error('Avatar picture size can not exceed 2MB!')
     return false
   }
-  uploadData.value.token = (await api.CommonControllerApi.getToken()).data
+  uploadData.value.token = (await api.Common.getToken()).data
   uploadData.value.key = getRandomFilePath() + '.' + rawFile.type.substring('image/'.length)
   return true
 }

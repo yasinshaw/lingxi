@@ -1,7 +1,9 @@
 import axios from 'axios'
 import {ElMessage} from "element-plus";
 import {userUserStore} from "@/store/modules/user";
-import {AuthReadControllerApi, AuthWriteControllerApi, CommonControllerApi} from "@/request/generator";
+import {Admin} from "@/request/generator/Admin";
+import {Common} from "@/request/generator/Common";
+import {Milestone} from "@/request/generator/Milestone";
 
 axios.defaults.timeout = 50000
 axios.defaults.baseURL = '/api'
@@ -15,6 +17,7 @@ axios.interceptors.request.use(request => {
 })
 
 axios.interceptors.response.use(response => {
+    console.log(response)
     const data = response.data;
     if (response.headers.authorization) {
         userUserStore.setAuthorization(response.headers.authorization)
@@ -30,10 +33,14 @@ axios.interceptors.response.use(response => {
 
 const $axios = axios
 const api = {
-    AuthReadControllerApi: new AuthReadControllerApi(undefined, "", axios),
-    AuthWriteControllerApi: new AuthWriteControllerApi(undefined, "", axios),
-    CommonControllerApi: new CommonControllerApi(undefined, "", axios),
+    Admin: new Admin(),
+    Common: new Common(),
+    Milestone: new Milestone(),
 }
+Object.entries(api).forEach(([k, v]) => {
+    v.instance = axios
+});
+
 export {
     $axios,
     api

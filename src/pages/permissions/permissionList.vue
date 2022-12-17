@@ -56,10 +56,11 @@
 <script setup lang="ts">
 import {ref, reactive, toRefs, onBeforeMount, onMounted, watchEffect, computed} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import {api} from "@/request";
-import {PagePermissionInfoResponse, PermissionInfoResponse} from "@/request/generator";
 import {DataItem, ElMessage} from "element-plus";
 import {dynamicRoute} from "@/routes/routes";
+import {PagePermissionInfoResponse, PermissionInfoResponse} from "@/request/generator/data-contracts";
+import {Admin} from "@/request/generator/Admin";
+import {api} from "@/request";
 
 /**
  * 路由对象
@@ -94,13 +95,13 @@ onBeforeMount(() => {
   //console.log('2.组件挂载页面之前执行----onBeforeMount')
 })
 const getPermissionList = async () => {
-  const tableData = (await api.AuthReadControllerApi.getPermissionList(data.currentPage - 1, data.pageSize)).data;
+  const tableData = (await api.Admin.getPermissionList(data.currentPage - 1, data.pageSize)).data;
   data.tableData = tableData
   data.totalNumber = tableData.totalElements!
 }
 
 const getAllRoles = async () => {
-  const roles = (await api.AuthReadControllerApi.getRoleList(0, 999)).data.content
+  const roles = (await api.Admin.getRoleList(0, 999)).data.content
   data.allRoles = roles!.map(x => {
     return {
       key: x.id!,
@@ -122,15 +123,15 @@ watchEffect(() => {
 const editRoles = async (permission: PermissionInfoResponse) => {
   await getAllRoles()
   data.currentPermission = permission
-  const roles = (await api.AuthReadControllerApi.getRoleListByPermissionId(permission.id!, 0, 999)).data.content
-  data.roleIds = roles!.map(x => x.id!)
+  const roles = (await api.Admin.getRoleListByPermissionId(permission.id!, 0, 999)).data.content
+  data.roleIds = roles!.map((x: { id: any; }) => x.id!)
   data.drawer = true
 }
 const filterRole = (query: string, item: DataItem) => {
   return item.label!.toLowerCase().includes(query.toLowerCase())
 }
 const save = async () => {
-  await api.AuthWriteControllerApi.updatePermissionRoleRelation(undefined, {
+  await api.Admin.updatePermissionRoleRelation( {
     permissionId: data.currentPermission.id!,
     roleIds: data.roleIds,
   })
@@ -142,7 +143,7 @@ const handlePageChange = async () => {
 }
 
 const updateApiPermissions = async () => {
-  await api.AuthWriteControllerApi.updateApiPermissions(undefined)
+  await api.Admin.updateApiPermissions()
   await getPermissionList()
 }
 
@@ -163,7 +164,7 @@ const updateMenuPermissions = async () => {
       routePaths.push(v.meta!.configFullPath as string)
     }
   })
-  await api.AuthWriteControllerApi.updateManuPermissions(undefined, routePaths)
+  await api.Admin.updateManuPermissions(routePaths)
   await getPermissionList()
 }
 
